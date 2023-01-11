@@ -1,0 +1,64 @@
+{
+  "[vue]": {
+    "editor.tabSize": 2,
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": true,
+    "editor.detectIndentation": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": false
+    }
+  },
+  "[javascript]": {
+      "editor.tabSize": 2,
+      "editor.formatOnPaste": false,
+      "editor.formatOnSave": true,
+      "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": true
+      }
+  },
+  "[scss]": {
+      "editor.tabSize": 2
+  },
+  "[blade]": {
+    "editor.tabSize": 4
+  },
+  "scssFormatter.singleQuote": true,
+  "vetur.format.enable": true,
+  "vetur.format.options.tabSize": 2,
+  "vetur.format.options.useTabs": false,
+
+  "vetur.format.defaultFormatter.html": "js-beautify-html",
+    "vetur.format.defaultFormatter.scss": "prettier",
+    "vetur.format.defaultFormatter.js": "vscode-typescript",
+    "files.insertFinalNewline": true,
+    "vetur.format.defaultFormatterOptions": {
+        "js-beautify-html": {
+            "wrap-line-length": "120",
+            "wrap-attributes": "force-expand-multiline"
+        },
+        "prettier": {
+            "singleQuote": true
+        }
+    },
+    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+    "javascript.format.placeOpenBraceOnNewLineForControlBlocks": false,
+    "javascript.format.placeOpenBraceOnNewLineForFunctions": false,
+    "editor.semanticTokenColorCustomizations": {
+        "enabled": true,
+        "rules": {
+            "property.refValue": {
+                "underline": true
+            }
+        }
+    },
+
+  // "editor.bracketPairColorization.enabled": true,
+  // "editor.guides.bracketPairs": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.codeActionsOnSave": [
+    "source.fixAll.eslint"
+  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
+
+}
