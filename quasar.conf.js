@@ -37,12 +37,14 @@ module.exports = configure(function (ctx) {
       // 'mdi-v5',
       // 'fontawesome-v5',
       // 'eva-icons',
-      // 'themify',
+      'themify',
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font', // optional, you are not bound to it
-      'material-icons' // optional, you are not bound to it
+      'material-icons', // optional, you are not bound to it
+      'material-icons-outlined',
+      'material-icons-round'
     ],
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
@@ -85,9 +87,14 @@ module.exports = configure(function (ctx) {
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
-      config: {},
+      config: {
+        screen: {
+          bodyClasses: true
+        }
+      },
+      dark: 'auto',
 
-      // iconSet: 'material-icons', // Quasar icon set
+      iconSet: 'material-icons', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
 
       // For special cases outside of where the auto-import strategy can have an impact
@@ -98,12 +105,17 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: [],
+
+      cssAddon: true
     },
 
     // animations: 'all', // --- includes all animations
     // https://quasar.dev/options/animations
-    animations: [],
+    animations: [
+      'fadeIn',
+      'fadeOut'
+    ],
 
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
