@@ -1,0 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,500&display=swap');
+$font-map: (
+  default: ('Noto Sans TC'),
+  CJK: ('Microsoft JhengHei', 'Microsoft YaHei', 'Heiti TC'),
+  fallback: (Helvetica, Arial),
+);

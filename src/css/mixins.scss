@@ -1,0 +1,21 @@
+@mixin add-color($name, $color) {
+  .text-#{$name} {
+    color: $color;
+  }
+
+  .bg-#{$name} {
+    background: $color;
+  }
+}
+
+@mixin in-app($app-class) {
+  .#{$app-class} {
+    & > .q-layout,
+    ~ div > .q-notifications,
+    ~ div > .q-dialog,
+    ~ div > .q-menu,
+    ~ div > .q-tooltip {
+      @content;
+    }
+  }
+}

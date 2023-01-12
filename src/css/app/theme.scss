@@ -1,0 +1,169 @@
+@import 'src/css/mixins';
+@import 'src/css/quasar.variables';
+@import 'src/css/app/font';
+
+body {
+  color: $app-text-primary; // default color
+  font-size: 14px;
+  min-width: $app-min-width;
+  overflow-x: hidden;
+
+  .screen--xs {
+    font-size: 12px;
+  }
+}
+
+@include in-app($app) {
+  color: $app-text-primary;
+  font-family: map-get($font-map, default), map-get($font-map, CJK), map-get($font-map, fallback), sans-serif;
+
+  .container {
+    margin: 0 auto;
+    max-width: $app-container-width;
+  }
+
+  .q-card {
+    border-radius: $app-card-border-radius;
+  }
+
+  // Button style
+  // --------------------
+  .btn-primary {
+    font-weight: normal;
+    padding: map-get($space-xs, y) map-get($space-lg, x);
+  }
+
+  // Hide box-shadow in input
+  // --------------------
+  .q-field--standout.q-field--focused {
+    .q-field__control {
+      box-shadow: none;
+    }
+  }
+
+  // Card style
+  // --------------------
+  .rounded-borders {
+    border-radius: $app-card-border-radius;
+  }
+
+  // Link style
+  // --------------------
+  %link {
+    cursor: pointer;
+    color: $app-text-primary;
+    display: inline-block;
+    text-decoration: underline;
+    transition: color 0.1s;
+
+    &:hover {
+      color: $primary;
+    }
+
+    &.in-paragraph {
+      color: $primary;
+
+      &:hover {
+        color: $app-hover;
+      }
+
+      &.with-btn {
+        vertical-align: baseline;
+
+        .q-focus-helper {
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  .link {
+    @extend %link;
+  }
+
+  .link--secondary {
+    @extend %link;
+    color: $app-grey-40;
+  }
+  // App Custom Notify
+  // --------------------
+  .app-notify {
+    align-items: center;
+    border-radius: 0 0 8px 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 0;
+    padding: 0 map-get($space-md, x);
+  }
+
+  // Tabs
+  // --------------------
+  .route-tabs {
+    border-bottom: 1px solid $grey-4;
+    display: inline-block;
+
+    .q-tab:hover {
+      opacity: 1;
+      transition: opacity 0.2s;
+    }
+
+    .q-tab__label {
+      font-size: map-get($subtitle1, size);
+      font-weight: 300;
+      padding-bottom: map-get($space-sm, y);
+    }
+
+    .active-tab {
+      .q-tab__label {
+        font-weight: bold;
+      }
+    }
+  }
+
+  // Table
+  // --------------------
+  .app-table {
+    &.q-table--loading {
+      // let loading slot visible in q-table which is hide-header
+      min-height: 150px;
+    }
+
+    &.no-data {
+      thead {
+        display: none;
+      }
+
+      .q-table__bottom {
+        border-top: 0;
+      }
+    }
+
+    th {
+      border-bottom-color: $dark;
+      color: $grey;
+      font-size: map-get($caption, size);
+      font-weight: normal;
+      padding-bottom: 0;
+    }
+
+    td {
+      font-size: map-get($body2, size);
+
+      &::before {
+        display: none;
+      }
+    }
+
+    // sticky control col
+    .q-td:last-child {
+      background-color: rgba(white, 0.9);
+      position: sticky;
+      right: 0;
+
+      &:hover {
+        background-color: white;
+      }
+    }
+  }
+}

@@ -1,1 +1,73 @@
 // app global css in SCSS form
+@import 'src/css/mixins';
+
+@include add-color('app-background', $app-background);
+
+// List
+// ----------------------------------------
+ul {
+  margin: 0;
+}
+
+.no-list-style {
+  list-style: none;
+  padding: 0;
+}
+
+// General styles
+// ----------------------------------------
+.text-underline {
+  text-decoration: underline;
+}
+
+.text-normal {
+  font-weight: normal;
+}
+
+.text-wrap {
+  &,
+  td {
+    white-space: normal;
+    word-break: break-word;
+  }
+}
+
+.text-wrap-line {
+  white-space: pre-line;
+}
+
+.text-minor {
+  font-size: .75rem;
+}
+
+.no-outlined {
+  .q-field__control::before {
+    display: none;
+  }
+}
+
+.cursor-move {
+  cursor: move;
+}
+
+// Borders (color is setup by color class)
+// ----------------------------------------
+.border {
+  border: 2px solid;
+}
+
+.dash-border {
+  border: 2px dashed;
+}
+
+.no-min-height {
+  min-height: auto;
+}
+
+.no-min-width {
+  min-width: auto;
+}
+
+.no-underline {
+  text-decoration: none;
+}
