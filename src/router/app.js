@@ -3,7 +3,7 @@ const appClass = 'movie-streaming' // should be same as $app in quasar.variables
 const appRoutes = [
   {
     path: '/login',
-    component: () => import('src/layouts/login/Main.vue'),
+    component: () => import('src/layouts/app/login/Main.vue'),
     meta: appClass,
     children: [
       {
@@ -17,7 +17,7 @@ const appRoutes = [
     path: '/',
     name: 'app-root',
     redirect: { name: 'index' },
-    component: () => import('src/layouts/app/Main.vue'),
+    component: () => import('src/layouts/app/main/Main.vue'),
     meta: appClass,
     children: [
       {
