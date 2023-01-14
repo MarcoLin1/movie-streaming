@@ -103,8 +103,8 @@ export default {
     const menuList = computed(() => {
       return [
         {
-          label: '首頁',
-          icon: 'ti-dashboard',
+          label: 'Home',
+          icon: 'r_home',
           to: {
             name: 'index'
           },
@@ -112,59 +112,78 @@ export default {
           visible: true
         },
         {
-          label: '會員管理',
-          icon: 'ti-user',
+          label: 'Discover',
+          icon: 'r_search',
           to: {
-            name: 'admin-member-management'
+            name: 'search'
           },
           children: [
-            'admin-member-detail'
+            ''
           ],
           visible: true
         },
         {
-          label: '會員表管理',
-          icon: 'ti-medall-alt',
-          group: 'membership',
-          subMenu: [
-            {
-              label: '會員權益表管理',
-              to: {
-                name: 'admin-membership-table-management'
-              },
-              visible: true
-            },
-            {
-              label: '會員等級管理',
-              to: {
-                name: 'admin-membership-status-management'
-              },
-              visible: true
-            }
-          ],
+          label: 'Recent',
+          icon: 'r_schedule',
+          subMenu: [],
           visible: true
         },
         {
-          label: '後台使用者與角色管理',
-          icon: 'ti-lock',
-          group: 'role',
+          label: 'Awards',
+          icon: 'r_auto_awesome',
+          subMenu: [],
+          visible: true
+        },
+        {
+          label: 'Top 250',
+          icon: 'r_hotel_class',
+          group: 'top',
           subMenu: [
             {
-              label: '使用者管理',
+              label: 'Movies',
+              icon: 'r_movie',
               to: {
-                name: 'admin-user-management'
+                name: 'top-movie'
               },
               visible: true
             },
             {
-              label: '角色管理',
+              label: 'TV',
+              icon: 'r_live_tv',
               to: {
-                name: 'admin-role-management'
+                name: 'top-tv'
               },
               visible: true
             }
-          ],
-          visible: true
+          ]
+        },
+        {
+          label: 'Category',
+          icon: 'r_category',
+          group: 'category',
+          subMenu: [
+            {
+              label: 'Movies',
+              to: {
+                name: 'movies'
+              },
+              visible: true
+            },
+            {
+              label: 'TV',
+              to: {
+                name: 'tvs'
+              },
+              visible: true
+            },
+            {
+              label: 'Anime',
+              to: {
+                name: 'anime'
+              },
+              visible: true
+            }
+          ]
         }
       ]
     })

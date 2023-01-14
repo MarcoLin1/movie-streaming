@@ -103,14 +103,17 @@
         </div>
       </q-toolbar>
     </q-header>
-    <q-page-container>
+    <q-page-container :class="{'bg-dark text-white' : isDarkMode}">
       <q-page class="q-pa-md full-height container">
         <div class="row no-wrap q-gutter-x-sm">
           <Drawer v-model="drawer" />
           <div class="col-grow">
             <router-view />
           </div>
-          <div class="col-grow">
+          <div
+            class="col-grow"
+            :class="{'bg-dark text-white' : isDarkMode}"
+          >
             <q-item class="q-pb-none">
               <q-item-section>
                 <q-input
@@ -124,7 +127,7 @@
                 </q-input>
               </q-item-section>
             </q-item>
-            <q-item class="column col-12 q-pr-none q-col-gutter-y-md">
+            <q-item class="column col-12 q-col-gutter-y-md">
               <q-item-section>
                 <div class="text-subtitle1 text-weight-bold text-grey-8">Popular Movies</div>
               </q-item-section>
@@ -168,7 +171,7 @@
                 ></q-btn>
               </q-item-section>
             </q-item>
-            <q-item class="column col-12 q-pr-none q-col-gutter-y-md">
+            <q-item class="column col-12 q-col-gutter-y-md">
               <q-item-section>
                 <div class="text-subtitle1 text-weight-bold text-grey-8">Watch Lists</div>
               </q-item-section>
