@@ -9,6 +9,7 @@
 /* eslint-env node */
 const ESLintPlugin = require('eslint-webpack-plugin')
 const { configure } = require('quasar/wrappers')
+const dotenv = require('./dotenv.js')
 
 module.exports = configure(function (ctx) {
   return {
@@ -64,6 +65,9 @@ module.exports = configure(function (ctx) {
       // showProgress: false,
       // gzip: true,
       // analyze: true,
+      env: {
+        apiKey: dotenv.API_KEY
+      },
 
       // Options below are automatically set depending on the env, set them if you want to override
       // extractCSS: false,
