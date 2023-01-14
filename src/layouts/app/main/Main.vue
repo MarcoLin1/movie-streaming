@@ -3,61 +3,112 @@
     view="lhh LpR lfr"
     class="bg-app-background layout"
   >
-    <q-header class="bg-app-background">
-      <!-- <q-toolbar class="q-py-sm q-px-md container">
-
-      </q-toolbar> -->
+    <q-header :class="isDarkMode ? 'bg-transparent text-white' : 'bg-transparent text-dark'">
+      <q-toolbar>
+        <q-btn
+          v-if="onTablet"
+          flat
+          round
+          size=".85em"
+          icon="ti-list"
+          @click="toggleMenu"
+        ></q-btn>
+        <div
+          v-else
+          class="q-pl-sm q-pr-md text-minor"
+        >
+          <q-breadcrumbs
+            gutter="sm"
+            class="q-px-xs"
+            active-color="dark"
+          >
+            <q-breadcrumbs-el
+              icon="ti-dashboard"
+              class="link-default"
+              :to="{ name: 'admin-index'}"
+            ></q-breadcrumbs-el>
+            <q-breadcrumbs-el
+              v-for="(breadcrumb, breadcrumbIndex) in breadcrumbs"
+              :key="breadcrumbIndex"
+              :label="breadcrumb"
+            ></q-breadcrumbs-el>
+          </q-breadcrumbs>
+        </div>
+        <q-space></q-space>
+        <div class="row q-gutter-x-xs">
+          <q-btn
+            flat
+            no-caps
+            size=".85em"
+            :rounded="!onTablet"
+            :round="onTablet"
+          >
+            <q-icon
+              v-if="onTablet"
+              name="ti-face-smile"
+            ></q-icon>
+            <div
+              v-else
+              class="row items-center q-gutter-x-sm q-pl-sm q-pr-none"
+            >
+              <q-icon
+                name="ti-face-smile"
+                class="negative-ml-xs"
+              ></q-icon>
+              <span class="negative-mr-sm">Hello</span>
+              <q-popup-proxy
+                anchor="bottom right"
+                self="top right"
+              >
+                <q-list :class="{'bg-white': !isDarkMode, 'bg-dark': isDarkMode}">
+                  <q-item
+                    clickable
+                    tag="label"
+                  >
+                    <q-item-section
+                      avatar
+                      class="no-min-width q-pr-sm"
+                    >
+                      <q-toggle
+                        dense
+                        size="2em"
+                        color="accent"
+                        class="q-mr-xs"
+                        v-model="darkMode"
+                        @update:model-value="toggleDarkMode"
+                      ></q-toggle>
+                    </q-item-section>
+                    <q-item-section>Dark Mode</q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="logout"
+                  >
+                    <q-item-section
+                      avatar
+                      class="no-min-width q-pr-md"
+                    >
+                      <q-icon
+                        name="ti-shift-right"
+                        size="xs"
+                      ></q-icon>
+                    </q-item-section>
+                    <q-item-section>Logout</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-popup-proxy>
+            </div>
+          </q-btn>
+        </div>
+      </q-toolbar>
     </q-header>
     <q-page-container>
       <q-page class="q-pa-md full-height container">
         <div class="row no-wrap q-gutter-x-sm">
+          <Drawer v-model="drawer" />
           <div class="col-grow">
-            <q-list
-              dense
-              separator
-              class="full-height menu-list"
-            >
-              <template
-                v-for="(group, groupIndex) in menuList"
-                :key="groupIndex"
-              >
-                <q-item class="column q-pb-none q-pr-none">
-                  <q-item-section>
-                    <div class="text-subtitle1 text-weight-bold text-grey-8">{{ group.title }}</div>
-                  </q-item-section>
-                  <q-item-section>
-                    <template
-                      v-for="(subItem, subItemIndex) in group.subGroup"
-                      :key="subItemIndex"
-                    >
-                      <q-item
-                        clickable
-                        class="q-py-none"
-                      >
-                        <q-item-section>
-                          <q-icon
-                            left
-                            size="sm"
-                            color="grey-7"
-                            :name="subItem.icon"
-                          ></q-icon>
-                        </q-item-section>
-                        <q-item-section>
-                          <div class="text-subtitle2 text-no-wrap text-weight-bold text-grey-7">{{ subItem.subTitle }}
-                          </div>
-                        </q-item-section>
-                      </q-item>
-                    </template>
-                  </q-item-section>
-                </q-item>
-              </template>
-            </q-list>
-          </div>
-          <!-- <q-separator vertical></q-separator> -->
-          <div class="col-7">
-            <q-card class="col-12 bg-primary full-height">
-              <router-view />
-            </q-card>
+            <router-view />
           </div>
           <div class="col-grow">
             <q-item class="q-pb-none">
@@ -169,78 +220,22 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
+import { useQuasar } from 'quasar'
+import useScreen from 'src/composables/useScreen'
+import Drawer from 'src/components/app/Drawer.vue'
 
 export default {
+  components: {
+    Drawer
+  },
   setup () {
-    const menuList = computed(() => {
-      return [
-        {
-          title: 'MENU',
-          subGroup: [
-            {
-              subTitle: 'Home',
-              icon: 'r_home'
-            },
-            {
-              subTitle: 'Discover',
-              icon: 'r_search'
-            },
-            {
-              subTitle: 'Award',
-              icon: 'r_stars'
-            },
-            {
-              subTitle: 'Recent',
-              icon: 'r_schedule'
-            }
-          ]
-        },
-        {
-          title: 'LIBRARY',
-          subGroup: [
-            {
-              subTitle: 'Top Rated',
-              icon: 'r_thumb_up'
-            },
-            {
-              subTitle: 'Top 250',
-              icon: 'r_star_rate'
-            }
-          ]
-        },
-        {
-          title: 'CATEGORY',
-          subGroup: [
-            {
-              subTitle: 'Movie',
-              icon: 'r_movie'
-            },
-            {
-              subTitle: 'TV Show',
-              icon: 'r_tv'
-            },
-            {
-              subTitle: 'Animate',
-              icon: 'r_pets'
-            }
-          ]
-        },
-        {
-          title: 'GENERAL',
-          subGroup: [
-            {
-              subTitle: 'Settings',
-              icon: 'r_settings'
-            },
-            {
-              subTitle: 'Log Out',
-              icon: 'r_logout'
-            }
-          ]
-        }
-      ]
-    })
+    const $q = useQuasar()
+    const { onMobile, onTablet, onDesktop, isDarkMode } = useScreen()
+
+    const drawer = ref(true)
+    const darkMode = ref(isDarkMode)
+    const breadcrumbs = ref([])
 
     const DUMMY_MOVIES = computed(() => {
       return [
@@ -265,9 +260,29 @@ export default {
       ]
     })
 
+    function toggleMenu () {
+      drawer.value = !drawer.value
+    }
+
+    function toggleDarkMode () {
+      $q.dark.toggle()
+    }
+
+    watch([onTablet, onDesktop], ([onTabletValue, onDesktopValue]) => {
+      drawer.value = !onTabletValue || onDesktopValue
+    })
+
     return {
-      menuList,
-      DUMMY_MOVIES
+      onMobile,
+      onTablet,
+      onDesktop,
+      isDarkMode,
+      drawer,
+      darkMode,
+      breadcrumbs,
+      DUMMY_MOVIES,
+      toggleMenu,
+      toggleDarkMode
     }
   }
 }
