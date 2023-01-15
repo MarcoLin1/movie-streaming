@@ -99,7 +99,7 @@ export default {
     const { isDarkMode } = useScreen()
 
     const innerDrawer = toRef(props, 'drawer')
-    console.log('the rops', props)
+
     const menuList = computed(() => {
       return [
         {

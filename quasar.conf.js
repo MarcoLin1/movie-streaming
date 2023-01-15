@@ -66,7 +66,14 @@ module.exports = configure(function (ctx) {
       // gzip: true,
       // analyze: true,
       env: {
-        apiKey: dotenv.API_KEY
+        apiKey: dotenv.API_KEY,
+        firebaseApiKey: dotenv.FIRE_BASE_API_KEY,
+        firebaseAuthDomain: dotenv.FIRE_BASE_AUTH_DOMAIN,
+        firebaseProjectId: dotenv.FIRE_BASE_PROJECT_ID,
+        firebaseStorageBucket: dotenv.FIRE_BASE_STORAGE_BUCKET,
+        firebaseMessagingSenderId: dotenv.FIRE_BASE_MESSAGING_SENDER_ID,
+        firebaseAppId: dotenv.FIRE_BASE_APP_ID,
+        firebaseMeasurementId: dotenv.FIRE_BASE_MEASUREMENT_ID
       },
 
       // Options below are automatically set depending on the env, set them if you want to override
@@ -109,7 +116,11 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: [
+        'Notify',
+        'Dialog',
+        'LocalStorage'
+      ],
 
       cssAddon: true
     },
