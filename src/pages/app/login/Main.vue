@@ -56,6 +56,7 @@
         <SocialBtn
           source='google'
           label='Sign in with Google'
+          @click="googleLoginHandler"
         />
         <SocialBtn
           source='facebook'
@@ -69,6 +70,7 @@
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import useAuth from 'src/api/auth'
 import LoginCard from 'src/components/app/LoginCard.vue'
 import SocialBtn from 'src/components/app/SocialBtn.vue'
 
@@ -79,6 +81,7 @@ export default {
   },
   setup () {
     const router = useRouter()
+    const { googleLogin } = useAuth()
 
     const rememberPassword = ref(false)
     const form = ref({
@@ -90,10 +93,16 @@ export default {
       router.push({ name: 'index' })
     }
 
+    async function googleLoginHandler () {
+      await googleLogin()
+      router.push({ name: 'index' })
+    }
+
     return {
       form,
       rememberPassword,
-      loginHandler
+      loginHandler,
+      googleLoginHandler
     }
   }
 }

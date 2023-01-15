@@ -10,7 +10,7 @@ export default defineComponent({
   setup () {
     const route = useRoute()
 
-    watch(() => route.matched[0]?.meta, (newValue, oldValue) => {
+    watch(() => route.matched[0]?.meta?.appClass, (newValue, oldValue) => {
       if (newValue !== oldValue) {
         const app = document.querySelector('#q-app')
         app?.classList.remove(oldValue)
