@@ -127,94 +127,7 @@
                 </q-input>
               </q-item-section>
             </q-item>
-            <q-item class="column col-12 q-col-gutter-y-md">
-              <q-item-section>
-                <div class="text-subtitle1 text-weight-bold text-grey-8">Popular Movies</div>
-              </q-item-section>
-              <template
-                v-for="(movie, movieIndex) in DUMMY_MOVIES"
-                :key="movieIndex"
-              >
-                <q-item-section>
-                  <div class="row full-width">
-                    <div>
-                      <q-img
-                        width="100px"
-                        height="80px"
-                        :src="movie.image"
-                      ></q-img>
-                    </div>
-                    <div class="q-gutter-y-sm q-pl-md">
-                      <div>{{ movie.title }}</div>
-                      <div>{{ movie.summary }}</div>
-                      <div class="icon">
-                        <template
-                          v-for="(item, itemIndex) in movie.ratingNumber"
-                          :key="itemIndex"
-                        >
-                          <q-icon
-                            size="xs"
-                            name="r_star"
-                          ></q-icon>
-                        </template>
-                      </div>
-                    </div>
-                  </div>
-                </q-item-section>
-              </template>
-              <q-item-section>
-                <q-btn
-                  outline
-                  color="secondary"
-                  class="full-width"
-                  label="See More"
-                ></q-btn>
-              </q-item-section>
-            </q-item>
-            <q-item class="column col-12 q-col-gutter-y-md">
-              <q-item-section>
-                <div class="text-subtitle1 text-weight-bold text-grey-8">Watch Lists</div>
-              </q-item-section>
-              <template
-                v-for="(movie, movieIndex) in DUMMY_MOVIES"
-                :key="movieIndex"
-              >
-                <q-item-section>
-                  <div class="row full-width">
-                    <div>
-                      <q-img
-                        width="100px"
-                        height="80px"
-                        :src="movie.image"
-                      ></q-img>
-                    </div>
-                    <div class="q-gutter-y-sm q-pl-md">
-                      <div>{{ movie.title }}</div>
-                      <div>{{ movie.summary }}</div>
-                      <div class="icon">
-                        <template
-                          v-for="(item, itemIndex) in movie.ratingNumber"
-                          :key="itemIndex"
-                        >
-                          <q-icon
-                            size="xs"
-                            name="r_star"
-                          ></q-icon>
-                        </template>
-                      </div>
-                    </div>
-                  </div>
-                </q-item-section>
-              </template>
-              <q-item-section>
-                <q-btn
-                  outline
-                  color="secondary"
-                  class="full-width"
-                  label="See More"
-                ></q-btn>
-              </q-item-section>
-            </q-item>
+            <PopularItems />
           </div>
         </div>
       </q-page>
@@ -223,45 +136,28 @@
 </template>
 
 <script>
-import { computed, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import useScreen from 'src/composables/useScreen'
+import useAuth from 'src/api/auth'
 import Drawer from 'src/components/app/Drawer.vue'
+import PopularItems from 'src/components/app/PopularItems.vue'
 
 export default {
   components: {
-    Drawer
+    Drawer,
+    PopularItems
   },
   setup () {
     const $q = useQuasar()
+    const router = useRouter()
+    const { googleLogout } = useAuth()
     const { onMobile, onTablet, onDesktop, isDarkMode } = useScreen()
 
     const drawer = ref(true)
     const darkMode = ref(isDarkMode)
     const breadcrumbs = ref([])
-
-    const DUMMY_MOVIES = computed(() => {
-      return [
-        {
-          title: 'Movie Title 1',
-          summary: 'Movie Summary 1',
-          ratingNumber: 4,
-          image: 'https://placeimg.com/500/300/nature?t=1'
-        },
-        {
-          title: 'Movie Title 2',
-          summary: 'Movie Summary 2',
-          ratingNumber: 5,
-          image: 'https://placeimg.com/500/300/nature?t=1'
-        },
-        {
-          title: 'Movie Title 2',
-          summary: 'Movie Summary 2',
-          ratingNumber: 2,
-          image: 'https://placeimg.com/500/300/nature?t=1'
-        }
-      ]
-    })
 
     function toggleMenu () {
       drawer.value = !drawer.value
@@ -269,6 +165,11 @@ export default {
 
     function toggleDarkMode () {
       $q.dark.toggle()
+    }
+
+    async function logout () {
+      await googleLogout()
+      router.push({ name: 'login' })
     }
 
     watch([onTablet, onDesktop], ([onTabletValue, onDesktopValue]) => {
@@ -283,9 +184,9 @@ export default {
       drawer,
       darkMode,
       breadcrumbs,
-      DUMMY_MOVIES,
       toggleMenu,
-      toggleDarkMode
+      toggleDarkMode,
+      logout
     }
   }
 }

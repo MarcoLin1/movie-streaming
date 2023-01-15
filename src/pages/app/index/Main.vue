@@ -20,8 +20,8 @@
           label="Inception"
         ></q-tab>
         <q-tab
-          name="inception"
-          label="Inception"
+          name="inception2"
+          label="Inception2"
         ></q-tab>
       </q-tabs>
     </div>
@@ -31,11 +31,12 @@
         v-model="tab"
         navigation
         arrows
+        autoplay
         transition-prev="slide-right"
         transition-next="slide-left"
       >
         <q-carousel-slide
-          name="movies"
+          name="leonardo"
           :img-src="'https://m.media-amazon.com/images/M/MV5BMjEzNzg0Mjk0Ml5BMl5BanBnXkFtZTcwMjI1ODkwMw@@._V1_Ratio2.4000_AL_.jpg'"
         >
           <div class="main-movie-caption absolute-bottom-left q-ma-md">
@@ -43,7 +44,7 @@
           </div>
         </q-carousel-slide>
         <q-carousel-slide
-          name="series"
+          name="inception"
           :img-src="'https://m.media-amazon.com/images/M/MV5BMTU4MDk3MjUzNF5BMl5BanBnXkFtZTcwNTc0OTk1Mw@@._V1_Ratio2.3800_AL_.jpg'"
         >
           <div class="main-movie-caption absolute-bottom-left q-ma-md">
@@ -51,7 +52,7 @@
           </div>
         </q-carousel-slide>
         <q-carousel-slide
-          name="episode"
+          name="inception2"
           :img-src="'https://m.media-amazon.com/images/M/MV5BMTY1Nzk4ODUwMF5BMl5BanBnXkFtZTcwMzc0OTk1Mw@@._V1_Ratio2.3800_AL_.jpg'"
         >
           <div class="main-movie-caption absolute-bottom-left q-ma-md">
@@ -155,7 +156,7 @@ export default {
   setup () {
     const { onMobile, onTablet, onDesktop, isDarkMode } = useScreen()
 
-    const tab = ref('movies')
+    const tab = ref('leonardo')
     const moviesData = ref([])
     const upcomingData = ref([])
     const sliceNowPlayingMovies = ref(0)
