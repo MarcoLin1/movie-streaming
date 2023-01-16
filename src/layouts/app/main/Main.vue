@@ -111,6 +111,7 @@
             <router-view />
           </div>
           <div
+            v-if="isIndexRoute"
             class="col-grow"
             :class="{'bg-dark text-white' : isDarkMode}"
           >
@@ -136,8 +137,8 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, watch, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
 import useScreen from 'src/composables/useScreen'
 import useAuth from 'src/api/auth'
@@ -151,6 +152,7 @@ export default {
   },
   setup () {
     const $q = useQuasar()
+    const route = useRoute()
     const router = useRouter()
     const { googleLogout } = useAuth()
     const { onMobile, onTablet, onDesktop, isDarkMode } = useScreen()
@@ -158,6 +160,8 @@ export default {
     const drawer = ref(true)
     const darkMode = ref(isDarkMode)
     const breadcrumbs = ref([])
+
+    const isIndexRoute = computed(() => route.name === 'index')
 
     function toggleMenu () {
       drawer.value = !drawer.value
@@ -184,6 +188,7 @@ export default {
       drawer,
       darkMode,
       breadcrumbs,
+      isIndexRoute,
       toggleMenu,
       toggleDarkMode,
       logout

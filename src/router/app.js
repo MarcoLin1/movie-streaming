@@ -27,8 +27,9 @@ const appMeta = {
 
 const appRoutes = [
   {
-    path: '/login',
+    path: '/',
     component: () => import('src/layouts/app/login/Main.vue'),
+    redirect: { name: 'login' },
     meta: appMeta.loggedOutOnly,
     children: [
       {
@@ -39,21 +40,21 @@ const appRoutes = [
     ]
   },
   {
-    path: '/',
+    path: '/index',
     name: 'app-root',
     redirect: { name: 'index' },
     component: () => import('src/layouts/app/main/Main.vue'),
     meta: appMeta.loginRequired,
     children: [
       {
-        path: 'index', // inherit parent path
+        path: '', // inherit parent path
         name: 'index',
         component: () => import('src/pages/app/index/Main.vue')
       },
       {
-        path: 'top-rated',
-        name: 'top-rated',
-        component: () => import('src/pages/app/TopRated/Main.vue')
+        path: 'popular',
+        name: 'popular',
+        component: () => import('src/pages/app/Popular/Main.vue')
       }
     ]
   }

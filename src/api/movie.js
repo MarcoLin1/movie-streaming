@@ -9,3 +9,11 @@ export function getInTheatersMovies () {
 export function getComingSoonMovies () {
   return api.get(`ComingSoon/${apiKey}`)
 }
+
+export function getPopularMovies () {
+  return api.get(`MostPopularMovies/${apiKey}`)
+}
+
+export function getPopularTVs () {
+  return api.get(`MostPopularTVs/${apiKey}`)
+}
