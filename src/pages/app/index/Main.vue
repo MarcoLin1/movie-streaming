@@ -36,6 +36,7 @@
         transition-next="slide-left"
       >
         <q-carousel-slide
+          class="rounded-borders"
           name="leonardo"
           :img-src="'https://m.media-amazon.com/images/M/MV5BMjEzNzg0Mjk0Ml5BMl5BanBnXkFtZTcwMjI1ODkwMw@@._V1_Ratio2.4000_AL_.jpg'"
         >
@@ -44,6 +45,7 @@
           </div>
         </q-carousel-slide>
         <q-carousel-slide
+          class="rounded-borders"
           name="inception"
           :img-src="'https://m.media-amazon.com/images/M/MV5BMTU4MDk3MjUzNF5BMl5BanBnXkFtZTcwNTc0OTk1Mw@@._V1_Ratio2.3800_AL_.jpg'"
         >
@@ -52,6 +54,7 @@
           </div>
         </q-carousel-slide>
         <q-carousel-slide
+          class="rounded-borders"
           name="inception2"
           :img-src="'https://m.media-amazon.com/images/M/MV5BMTY1Nzk4ODUwMF5BMl5BanBnXkFtZTcwMzc0OTk1Mw@@._V1_Ratio2.3800_AL_.jpg'"
         >
@@ -90,6 +93,7 @@
             :key="movieIndex"
           >
             <q-img
+              class="rounded-borders"
               height="200px"
               placeholder-src="~assets/init-image.png"
               :width="onDesktop ? '200px' : '180px'"
@@ -133,6 +137,7 @@
             :key="movieIndex"
           >
             <q-img
+              class="rounded-borders"
               placeholder-src="~assets/init-image.png"
               height="200px"
               :width="onDesktop ? '200px' : '180px'"

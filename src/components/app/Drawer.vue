@@ -41,7 +41,7 @@
             class="expansion-menu-item"
             header-class="expansion-menu-header q-py-xs"
             :default-opened="isMenuActive(menu.subMenu)"
-            :class="{'is-active': isMenuActive(menu.subMenu)}"
+            :class="[{'is-active': isMenuActive(menu.subMenu)}, isDarkMode ? 'bg-dark text-white' : 'bg-app-background text-dark']"
             :expand-icon-class="['expand-icon', { 'is-active': isMenuActive(menu.subMenu)}]"
           >
             <template v-slot:header>
