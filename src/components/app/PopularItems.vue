@@ -51,6 +51,7 @@ import { getPopularTVs } from 'src/api/movie'
 export default {
   setup () {
     const router = useRouter()
+
     const popularTVs = ref([])
 
     const topTenTVs = computed(() => {
@@ -71,7 +72,6 @@ export default {
             imDbRating
           }
         })
-        console.log('data', data)
       } catch (error) {
         console.log('error', error)
       }
