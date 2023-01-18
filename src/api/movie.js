@@ -17,3 +17,11 @@ export function getPopularMovies () {
 export function getPopularTVs () {
   return api.get(`MostPopularTVs/${apiKey}`)
 }
+
+export function getTop250Movies () {
+  return api.get(`Top250Movies/${apiKey}`)
+}
+
+export function getTop250TVs () {
+  return api.get(`Top250TVs/${apiKey}`)
+}

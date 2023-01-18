@@ -55,6 +55,16 @@ const appRoutes = [
         path: 'popular',
         name: 'popular',
         component: () => import('src/pages/app/Popular/Main.vue')
+      },
+      {
+        path: 'top-250-movies',
+        name: 'top-250-movies',
+        component: () => import('src/pages/app/Top250Movies/Main.vue')
+      },
+      {
+        path: 'top-250-tvs',
+        name: 'top-250-tvs',
+        component: () => import('src/pages/app/Top250TVs/Main.vue')
       }
     ]
   }
