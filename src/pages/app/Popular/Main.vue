@@ -25,122 +25,50 @@
         name="tv"
         class="q-pa-none"
       >
-        <q-table
-          row-key="name"
-          v-model:pagination="pagination"
-          :class="{'bg-app-background': !isDarkMode}"
-          :dark="isDarkMode"
-          :loading="isLoading"
-          :filter="search"
-          :columns="columns"
-          :rows="popularTVs"
-          :rows-per-page-options="[10, 20, 30]"
-        >
-          <template v-slot:top-right>
-            <q-input
-              dense
-              clearable
-              rounded
-              standout
-              debounce="300"
-              v-model="search"
+        <div class="q-py-md bg-app-background">
+          <div class="row justify-center q-gutter-md">
+            <q-intersection
+              v-for="tv in popularTVs"
+              class="intersection-item"
+              :key="tv.id"
             >
-              <template
-                v-if="!search"
-                v-slot:append
+              <q-img
+                class="item-image"
+                :src="tv.image"
               >
-                <q-icon name="r_search"></q-icon>
-              </template>
-            </q-input>
-          </template>
-          <template v-slot:header="props">
-            <q-tr :props="props">
-              <q-th
-                v-for="col in props.cols"
-                :key="col.name"
-                :props="props"
-                :auto-width="col.autoWidth"
-              >
-                <span class="text-subtitle1 text-weight-bold">{{ col.label }}</span>
-              </q-th>
-            </q-tr>
-          </template>
-          <template v-slot:body-cell-title="props">
-            <q-td :props="props">
-              <div class="row items-center q-gutter-x-md no-wrap">
-                <img
-                  class="popular-image"
-                  :src="props.row.image"
-                >
-                <div class="text-subtitle2 text-weight-bold">{{ props.row.title }}</div>
-              </div>
-            </q-td>
-          </template>
-        </q-table>
+                <div class="text-subtitle1">{{ tv.fullTitle }}</div>
+              </q-img>
+            </q-intersection>
+          </div>
+        </div>
       </q-tab-panel>
       <q-tab-panel
         name="movie"
         class="q-pa-none"
       >
-        <q-table
-          row-key="name"
-          v-model:pagination="pagination"
-          :class="{'bg-app-background': !isDarkMode}"
-          :dark="isDarkMode"
-          :loading="isLoading"
-          :filter="search"
-          :columns="columns"
-          :rows="popularMovies"
-          :rows-per-page-options="[10, 20, 30]"
-        >
-          <template v-slot:top-right>
-            <q-input
-              dense
-              clearable
-              rounded
-              standout
-              debounce="300"
-              v-model="search"
+        <div class="q-py-md bg-app-background">
+          <div class="row justify-center q-gutter-md">
+            <q-intersection
+              v-for="movie in popularMovies"
+              class="intersection-item"
+              :key="movie.id"
             >
-              <template
-                v-if="!search"
-                v-slot:append
+              <q-img
+                class="item-image"
+                :src="movie.image"
               >
-                <q-icon name="r_search"></q-icon>
-              </template>
-            </q-input>
-          </template>
-          <template v-slot:header="props">
-            <q-tr :props="props">
-              <q-th
-                v-for="col in props.cols"
-                :key="col.name"
-                :props="props"
-                :auto-width="col.autoWidth"
-              >
-                <span class="text-subtitle1 text-weight-bold">{{ col.label }}</span>
-              </q-th>
-            </q-tr>
-          </template>
-          <template v-slot:body-cell-title="props">
-            <q-td :props="props">
-              <div class="row items-center q-gutter-x-md no-wrap">
-                <img
-                  class="popular-image"
-                  :src="props.row.image"
-                >
-                <div class="text-subtitle2 text-weight-bold">{{ props.row.title }}</div>
-              </div>
-            </q-td>
-          </template>
-        </q-table>
+                <div class="text-subtitle1">{{ movie.fullTitle }}</div>
+              </q-img>
+            </q-intersection>
+          </div>
+        </div>
       </q-tab-panel>
     </q-tab-panels>
   </div>
 </template>
 
 <script>
-import { computed, ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { getPopularTVs, getPopularMovies } from 'src/api/movie'
 import useScreen from 'src/composables/useScreen'
 
@@ -151,93 +79,40 @@ export default {
 
     const tab = ref('tv')
     const isLoading = ref(false)
-    const search = ref(null)
     const popularTVs = ref([])
     const popularMovies = ref([])
-    const pagination = ref({
-      rowsPerPage: 10,
-      sortBy: 'rank',
-      descending: false
-    })
-
-    const columns = computed(() => {
-      return [
-        {
-          name: 'title',
-          label: 'Title',
-          align: 'left',
-          autoWidth: true,
-          field: (row) => row.fullTitle,
-          sortable: true
-        },
-        {
-          name: 'rank',
-          label: 'Rank',
-          align: 'center',
-          autoWidth: true,
-          field: (row) => Number(row.rank),
-          sortable: true
-        },
-        {
-          name: 'rankUpDown',
-          label: 'Rank Up',
-          align: 'center',
-          autoWidth: true,
-          field: (row) => row.rankUpDown,
-          sortable: false
-        },
-        {
-          name: 'rating',
-          label: 'Rating',
-          align: 'center',
-          autoWidth: true,
-          field: (row) => Number(row.imDbRating),
-          sortable: true
-        },
-        {
-          name: 'ratingCount',
-          label: 'Rating Count',
-          align: 'center',
-          autoWidth: true,
-          field: (row) => Number(row.imDbRatingCount),
-          sortable: true
-        }
-      ]
-    })
 
     async function fetchPopularTVs () {
-      const { data } = await getPopularTVs()
-      popularTVs.value = data.items
-      console.log('popular tv', data)
+      try {
+        const { data } = await getPopularTVs()
+        popularTVs.value = data.items
+      } catch (error) {
+        console.log('fetch popular tv failed', error)
+      }
     }
 
     async function fetchPopularMovies () {
-      const { data } = await getPopularMovies()
-      popularMovies.value = data.items
-      console.log('popular movie', data)
+      try {
+        const { data } = await getPopularMovies()
+        popularMovies.value = data.items
+      } catch (error) {
+        console.log('fetch popular movies failed', error)
+      }
     }
 
     onMounted(async () => {
-      try {
-        isLoading.value = true
-        const fetchTVs = fetchPopularTVs()
-        const fetchMovies = fetchPopularMovies()
-        await Promise.all([fetchTVs, fetchMovies])
-      } catch (error) {
-        console.log('fetch TVs failed', error)
-      } finally {
-        isLoading.value = false
-      }
+      isLoading.value = true
+      const fetchTVs = fetchPopularTVs()
+      const fetchMovies = fetchPopularMovies()
+      await Promise.all([fetchTVs, fetchMovies])
+      isLoading.value = false
     })
 
     return {
       tab,
-      columns,
       popularTVs,
       popularMovies,
-      search,
       isLoading,
-      pagination,
       isDarkMode
     }
   }
@@ -245,7 +120,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.popular-image {
-  width: 100px;
+.item-image {
+  width: 250px;
+  max-height: 280px;
+}
+.intersection-item {
+  width: 260px;
+  height: 290px;
 }
 </style>

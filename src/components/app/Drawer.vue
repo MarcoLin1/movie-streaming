@@ -143,7 +143,7 @@ export default {
               label: 'Movies',
               icon: 'r_movie',
               to: {
-                name: 'top-movie'
+                name: 'top-250-movies'
               },
               visible: true
             },
@@ -151,7 +151,7 @@ export default {
               label: 'TV',
               icon: 'r_live_tv',
               to: {
-                name: 'top-tv'
+                name: 'top-250-tvs'
               },
               visible: true
             }
