@@ -54,17 +54,22 @@ const appRoutes = [
       {
         path: 'popular',
         name: 'popular',
-        component: () => import('src/pages/app/Popular/Main.vue')
+        component: () => import('src/pages/app/popular/Main.vue')
       },
       {
         path: 'top-250-movies',
         name: 'top-250-movies',
-        component: () => import('src/pages/app/Top250Movies/Main.vue')
+        component: () => import('src/pages/app/top250Movies/Main.vue')
       },
       {
         path: 'top-250-tvs',
         name: 'top-250-tvs',
-        component: () => import('src/pages/app/Top250TVs/Main.vue')
+        component: () => import('src/pages/app/top250TVs/Main.vue')
+      },
+      {
+        path: 'discover',
+        name: 'discover',
+        component: () => import('src/pages/app/discover/Main.vue')
       }
     ]
   }

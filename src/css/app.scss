@@ -14,6 +14,17 @@ ul {
   padding: 0;
 }
 
+// space
+$margin-directions: ('mt': 'margin-top', 'mr': 'margin-right', 'mb': 'margin-bottom', 'ml': 'margin-left');
+$breakpoints-steps: 'xs', 'sm', 'md', 'lg', 'xl';
+@each $direct, $margin in $margin-directions {
+  @each $breakpoint in $breakpoints-steps {
+    .negative-#{$direct}-#{$breakpoint} {
+      #{$margin}: -1 * map-get(map-get($spaces, #{$breakpoint}), if($direct == 'mt' OR $direct == 'mb', y, x));
+    }
+  }
+}
+
 // General styles
 // ----------------------------------------
 .text-underline {
