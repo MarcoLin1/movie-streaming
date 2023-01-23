@@ -69,7 +69,10 @@
               :key="subMenuIndex"
               :to="subMenu.to"
             >
-              <q-item-section class="q-ml-none">
+              <q-item-section
+                class="q-ml-none"
+                :class="{'text-white': isMenuActive(menu.subMenu)}"
+              >
                 {{ subMenu.label }}
               </q-item-section>
             </q-item>
@@ -115,11 +118,9 @@ export default {
           label: 'Discover',
           icon: 'r_search',
           to: {
-            name: 'search'
+            name: 'discover'
           },
-          children: [
-            ''
-          ],
+          children: [],
           visible: true
         },
         {

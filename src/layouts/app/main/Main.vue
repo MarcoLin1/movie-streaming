@@ -107,9 +107,7 @@
       <q-page class="q-pa-md full-height container">
         <div class="row no-wrap q-gutter-x-sm">
           <Drawer v-model="drawer" />
-          <div class="col-grow">
-            <router-view />
-          </div>
+          <router-view />
           <div
             v-if="isIndexRoute"
             class="col-grow"

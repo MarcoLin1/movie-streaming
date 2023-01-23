@@ -87,7 +87,7 @@
     </q-item>
     <q-item class="q-px-none">
       <q-item-section>
-        <div class="col-12 row justify-between q-gutter-x-md q-gutter-y-sm">
+        <div class="col-12 row justify-between q-gutter-x-sm q-gutter-y-sm">
           <template
             v-for="(movie, movieIndex) in nowPlayingMovies"
             :key="movieIndex"

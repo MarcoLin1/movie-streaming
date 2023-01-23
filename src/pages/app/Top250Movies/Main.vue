@@ -4,6 +4,7 @@
     <q-table
       row-key="name"
       v-model:pagination="pagination"
+      class="top-movie-table"
       :class="{'bg-app-background': !isDarkMode}"
       :dark="isDarkMode"
       :loading="isLoading"
@@ -150,6 +151,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.top-movie-table {
+  min-width: 800px;
+}
 .item-image {
   width: 150px;
   height: 200px;
