@@ -70,6 +70,11 @@ const appRoutes = [
         path: 'discover',
         name: 'discover',
         component: () => import('src/pages/app/discover/Main.vue')
+      },
+      {
+        path: ':id',
+        name: 'detail',
+        component: () => import('src/pages/app/detail/Main.vue')
       }
     ]
   }

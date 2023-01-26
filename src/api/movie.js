@@ -27,8 +27,11 @@ export function getTop250TVs () {
 }
 
 export function advancedSearch (params) {
-  console.log('the params ?', params)
   return api.get(`AdvancedSearch/${apiKey}`, {
     params: params
   })
+}
+
+export function getMovieDetail (id) {
+  return api.get(`Title/${apiKey}/${id}`)
 }
