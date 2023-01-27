@@ -33,8 +33,9 @@
               :key="tv.id"
             >
               <q-img
-                class="item-image"
+                class="item-image cursor-pointer"
                 :src="tv.image"
+                @click="goToDetail(tv.id)"
               >
                 <div class="text-subtitle1">{{ tv.fullTitle }}</div>
               </q-img>
@@ -56,6 +57,7 @@
               <q-img
                 class="item-image"
                 :src="movie.image"
+                @click="goToDetail(movie.id)"
               >
                 <div class="text-subtitle1">{{ movie.fullTitle }}</div>
               </q-img>
@@ -69,12 +71,14 @@
 
 <script>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { getPopularTVs, getPopularMovies } from 'src/api/movie'
 import useScreen from 'src/composables/useScreen'
 
 export default {
   name: 'PopularPage',
   setup () {
+    const router = useRouter()
     const { isDarkMode } = useScreen()
 
     const tab = ref('tv')
@@ -100,6 +104,10 @@ export default {
       }
     }
 
+    function goToDetail (id) {
+      router.push({ name: 'detail', params: { id } })
+    }
+
     onMounted(async () => {
       isLoading.value = true
       const fetchTVs = fetchPopularTVs()
@@ -113,7 +121,8 @@ export default {
       popularTVs,
       popularMovies,
       isLoading,
-      isDarkMode
+      isDarkMode,
+      goToDetail
     }
   }
 }

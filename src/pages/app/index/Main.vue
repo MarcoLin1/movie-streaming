@@ -89,18 +89,19 @@
       <q-item-section>
         <div class="col-12 row justify-between q-gutter-x-sm q-gutter-y-sm">
           <template
-            v-for="(movie, movieIndex) in nowPlayingMovies"
-            :key="movieIndex"
+            v-for="nowPlayingMovie in nowPlayingMovies"
+            :key="nowPlayingMovie.id"
           >
             <q-img
-              class="rounded-borders"
+              class="rounded-borders cursor-pointer"
               height="200px"
               placeholder-src="~assets/init-image.png"
               :width="onDesktop ? '200px' : '180px'"
-              :src="movie.image"
+              :src="nowPlayingMovie.image"
+              @click="goToDetail(nowPlayingMovie.id)"
             >
               <div class="absolute-bottom-left q-ma-sm main-movie-caption main-movie-caption-mobile cursor-pointer">
-                {{movie.title}}
+                {{ nowPlayingMovie.title }}
               </div>
               <div class="absolute-top-right q-ma-sm add-movie-btn cursor-pointer">+</div>
             </q-img>
@@ -133,17 +134,19 @@
       <q-item-section>
         <div class="col-12 row justify-between q-gutter-x-sm q-gutter-y-sm">
           <template
-            v-for="(movie, movieIndex) in upcomingMovies"
-            :key="movieIndex"
+            v-for="upcomingMovie in upcomingMovies"
+            :key="upcomingMovie.id"
           >
             <q-img
-              class="rounded-borders"
+              class="rounded-borders cursor-pointer"
               placeholder-src="~assets/init-image.png"
               height="200px"
               :width="onDesktop ? '200px' : '180px'"
-              :src="movie.image"
+              :src="upcomingMovie.image"
+              @click="goToDetail(upcomingMovie.id)"
             >
-              <div class="absolute-bottom-left upcoming-caption q-ma-sm cursor-pointer">{{ movie.releaseState }}</div>
+              <div class="absolute-bottom-left upcoming-caption q-ma-sm cursor-pointer">{{ upcomingMovie.releaseState }}
+              </div>
             </q-img>
           </template>
         </div>
@@ -154,11 +157,13 @@
 
 <script>
 import { computed, ref, onMounted } from 'vue'
-import useScreen from 'src/composables/useScreen'
+import { useRouter } from 'vue-router'
 import { getInTheatersMovies, getComingSoonMovies } from 'src/api/movie'
+import useScreen from 'src/composables/useScreen'
 
 export default {
   setup () {
+    const router = useRouter()
     const { onMobile, onTablet, onDesktop, isDarkMode } = useScreen()
 
     const tab = ref('leonardo')
@@ -229,6 +234,10 @@ export default {
       }
     }
 
+    function goToDetail (id) {
+      router.push({ name: 'detail', params: { id } })
+    }
+
     onMounted(async () => {
       await getNowPlayingMovies()
       await getUpComingMovies()
@@ -244,7 +253,8 @@ export default {
       upcomingMovies,
 
       nextMovies,
-      prevMovies
+      prevMovies,
+      goToDetail
     }
   }
 }

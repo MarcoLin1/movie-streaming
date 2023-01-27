@@ -44,7 +44,10 @@
       </template>
       <template v-slot:body-cell-title="props">
         <q-td :props="props">
-          <div class="row items-center q-gutter-x-md no-wrap">
+          <div
+            class="row items-center q-gutter-x-md no-wrap cursor-pointer"
+            @click="goToDetail(props.row.id)"
+          >
             <q-img
               class="item-image"
               :src="props.row.image"
@@ -59,16 +62,18 @@
 
 <script>
 import { computed, ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { getTop250Movies } from 'src/api/movie'
 import useScreen from 'src/composables/useScreen'
 
 export default {
   name: 'Top250Movies',
   setup () {
+    const router = useRouter()
     const { isDarkMode } = useScreen()
+
     const isLoading = ref(false)
     const search = ref(null)
-
     const top250Movies = ref([])
     const pagination = ref({
       rowsPerPage: 10,
@@ -133,6 +138,10 @@ export default {
       }
     }
 
+    function goToDetail (id) {
+      router.push({ name: 'detail', params: { id } })
+    }
+
     onMounted(async () => {
       await fetchTop250Movies()
     })
@@ -144,7 +153,8 @@ export default {
       pagination,
       columns,
       top250Movies,
-      fetchTop250Movies
+      fetchTop250Movies,
+      goToDetail
     }
   }
 }

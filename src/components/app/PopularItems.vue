@@ -11,10 +11,12 @@
         <div class="row full-width">
           <div>
             <q-img
+              class="cursor-pointer"
               width="100px"
               height="80px"
               placeholder-src="~assets/init-image.png"
               :src="tv.image"
+              @click="goToDetail(tv.id)"
             ></q-img>
           </div>
           <div class="q-gutter-y-sm q-pl-md">
@@ -81,13 +83,18 @@ export default {
       router.push({ name: 'popular' })
     }
 
+    function goToDetail (id) {
+      router.push({ name: 'detail', params: { id } })
+    }
+
     onMounted(async () => {
       await fetchPopularMovies()
     })
 
     return {
       topTenTVs,
-      goToPopularPage
+      goToPopularPage,
+      goToDetail
     }
   }
 }

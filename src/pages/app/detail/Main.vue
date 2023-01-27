@@ -92,12 +92,21 @@
               v-for="similarItem in similarList"
               :key="similarItem.id"
             >
-              <q-card class="similar-movie">
-                <q-img :src="similarItem.image">
+              <q-card
+                class="similar-card cursor-pointer"
+                @click="checkDetail(similarItem.id)"
+              >
+                <q-img
+                  class="similar-image"
+                  :src="similarItem.image"
+                >
                 </q-img>
-                <q-card-section class="row justify-between q-py-sm">
+                <q-card-section class="row justify-between items-center q-py-sm no-wrap">
                   <div class="text-subtitle2">{{ similarItem.title }}</div>
-                  <div class="row">
+                  <div
+                    v-if="similarItem.imDbRating !== ''"
+                    class="row no-wrap items-center"
+                  >
                     <q-icon
                       size="sm"
                       color="yellow"
@@ -129,12 +138,13 @@
 <script>
 import { ref, onMounted } from 'vue'
 import { extend } from 'quasar'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { getMovieDetail } from 'src/api/movie'
 
 export default {
   setup () {
     const route = useRoute()
+    const router = useRouter()
     const actorList = ref([])
     const directorList = ref([])
     const similarList = ref([])
@@ -147,11 +157,9 @@ export default {
       image: '',
       plot: ''
     })
-    const isLoading = ref(false)
 
     async function getDetail (id) {
       try {
-        isLoading.value = true
         const { data } = await getMovieDetail(id)
         actorList.value = data.actorList
         directorList.value = data.directorList
@@ -167,9 +175,11 @@ export default {
         })
       } catch (error) {
         console.log('get detail error', error)
-      } finally {
-        isLoading.value = false
       }
+    }
+    async function checkDetail (id) {
+      await getDetail(id)
+      router.push({ name: 'detail', params: { id } })
     }
 
     onMounted(async () => {
@@ -183,7 +193,7 @@ export default {
       similarList,
       writerList,
       movieInfo,
-      isLoading
+      checkDetail
     }
   }
 }
@@ -196,8 +206,13 @@ export default {
   border-radius: 50%;
 }
 
-.similar-movie {
+.similar-card {
   width: 200px;
+}
+
+.similar-image {
+  width: 200px;
+  height: 300px;
 }
 
 .loading-effect {
