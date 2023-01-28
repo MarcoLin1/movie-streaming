@@ -86,6 +86,15 @@
             </q-input>
           </div>
         </q-card-section>
+        <q-card-section class="q-pb-sm">
+          <div class="text-h6">Keyword</div>
+          <q-input
+            filled
+            dense
+            v-model="keyword"
+            class="keyword-input q-pt-md"
+          ></q-input>
+        </q-card-section>
         <q-card-actions
           align="left"
           class="q-pa-md"
@@ -97,100 +106,85 @@
           ></q-btn>
         </q-card-actions>
       </q-form>
-      <q-table
-        v-if="resultData.length > 0 || isLoading"
-        dense
-        title="Result"
-        row-key="id"
-        :loading="isLoading"
-        :columns="columns"
-        :rows="resultData"
-        :rows-per-page-options="[10, 20, 30]"
-      >
-        <template v-slot:header="props">
-          <q-tr :props="props">
-            <q-th
-              v-for="col in props.cols"
-              :key="col.name"
+      <q-card-section>
+        <q-table
+          v-if="(resultData ?? [])?.length > 0 || isLoading"
+          dense
+          flat
+          bordered
+          title="Result"
+          row-key="id"
+          :loading="isLoading"
+          :columns="columns"
+          :rows="resultData"
+          :rows-per-page-options="[10, 20, 30]"
+        >
+          <template v-slot:header="props">
+            <q-tr :props="props">
+              <q-th
+                v-for="col in props.cols"
+                :key="col.name"
+                :props="props"
+                :auto-width="col.autoWidth"
+              >
+                <span class="text-subtitle1 text-weight-bold">{{ col.label }}</span>
+              </q-th>
+            </q-tr>
+          </template>
+          <template v-slot:body-cell-runTime="props">
+            <q-td :props="props">
+              <template v-if="props.row.runtimeStr">
+                <span>{{ props.row.runtimeStr }}</span>
+              </template>
+              <template v-else>
+                <span>-</span>
+              </template>
+            </q-td>
+          </template>
+          <template v-slot:body-cell-genreList="props">
+            <q-td
+              class="q-gutter-x-sm"
               :props="props"
-              :auto-width="col.autoWidth"
             >
-              <span class="text-subtitle1 text-weight-bold">{{ col.label }}</span>
-            </q-th>
-          </q-tr>
-        </template>
-        <template v-slot:body-cell-runTime="props">
-          <q-td :props="props">
-            <template v-if="props.row.runtimeStr">
-              <span>{{ props.row.runtimeStr }}</span>
-            </template>
-            <template v-else>
-              <span>-</span>
-            </template>
-          </q-td>
-        </template>
-        <template v-slot:body-cell-genreList="props">
-          <q-td
-            class="q-gutter-x-sm"
-            :props="props"
-          >
-            <template
-              v-for="(item, itemIndex) in props.row.genreList"
-              :key="itemIndex"
+              <template
+                v-for="(item, itemIndex) in props.row.genreList"
+                :key="itemIndex"
+              >
+                <q-badge
+                  color="primary"
+                  :label="item.key"
+                ></q-badge>
+              </template>
+            </q-td>
+          </template>
+          <template v-slot:body-cell-starList="props">
+            <q-td
+              class="q-gutter-x-xs"
+              :props="props"
             >
-              <q-badge
-                color="primary"
-                :label="item.key"
-              ></q-badge>
-            </template>
-          </q-td>
-        </template>
-        <template v-slot:body-cell-starList="props">
-          <q-td
-            class="q-gutter-x-xs"
-            :props="props"
-          >
-            <template
-              v-for="star in props.row.starList"
-              :key="star.id"
-            >
-              <q-badge
-                color="secondary"
-                :label="star.name"
-              ></q-badge>
-            </template>
-          </q-td>
-        </template>
-        <!-- <template v-slot:body-cell-expand="props">
-          <q-tr :props="props">
-            <q-td auto-width>
+              <template
+                v-for="star in props.row.starList"
+                :key="star.id"
+              >
+                <q-badge
+                  color="secondary"
+                  :label="star.name"
+                ></q-badge>
+              </template>
+            </q-td>
+          </template>
+          <template v-slot:body-cell-detail="props">
+            <q-td :props="props">
               <q-btn
-                round
-                dense
-                size="sm"
+                outline
                 color="primary"
-                :icon="props.expand ? 'remove' : 'add'"
-                @click="props.expand = !props.expand"
+                label="Detail"
+                @click="goToDetail(props.row.id)"
               ></q-btn>
             </q-td>
-            <q-td
-              v-for="col in props.cols"
-              :key="col.name"
-              :props="props"
-            >
-              {{ col }}
-            </q-td>
-          </q-tr>
-          <q-tr
-            v-show="props.expand"
-            :props="props"
-          >
-            <q-td colspan="100%">
-              <div class="text-left">{{ props.row.plot }}</div>
-            </q-td>
-          </q-tr>
-        </template> -->
-      </q-table>
+          </template>
+        </q-table>
+      </q-card-section>
     </q-card>
   </div>
 
@@ -198,6 +192,7 @@
 
 <script>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { date } from 'quasar'
 import { advancedSearch } from 'src/api/movie'
 import { GENRES, TITLE_GROUPS, GENRES_OPTIONS, TITLE_GROUPS_OPTIONS } from 'src/constant/options'
@@ -205,8 +200,11 @@ import { QUASAR_DATE, RESTFUL_API_DATE } from 'src/constant/date'
 
 export default {
   setup () {
+    const router = useRouter()
+
     const startDate = ref('')
     const endDate = ref('')
+    const keyword = ref('')
     const resultData = ref([])
     const isLoading = ref(false)
 
@@ -225,12 +223,6 @@ export default {
 
     const columns = computed(() => {
       return [
-        {
-          name: 'expand',
-          label: '',
-          align: 'left',
-          autoWidth: false
-        },
         {
           name: 'title',
           label: 'Title',
@@ -262,6 +254,14 @@ export default {
           autoWidth: false,
           field: (row) => row.starList,
           sortable: false
+        },
+        {
+          name: 'detail',
+          label: '',
+          align: 'left',
+          autoWidth: false,
+          field: () => { },
+          sortable: false
         }
         // {
         //   name: 'plot',
@@ -287,10 +287,10 @@ export default {
         const { data } = await advancedSearch({
           genres: genres.join(),
           groups: groups.join(),
-          release_date: releaseDate
+          release_date: releaseDate,
+          keywords: keyword.value
         })
         resultData.value = data.results
-        console.log('the data ?', data)
       } catch (error) {
         console.log('search error', error)
       } finally {
@@ -303,18 +303,27 @@ export default {
       return date.formatDate(exactDate, RESTFUL_API_DATE)
     }
 
+    function goToDetail (id) {
+      router.push({ name: 'detail', params: { id } })
+    }
+
     return {
       startDate,
       endDate,
+      keyword,
       advancedSearchOptions,
       columns,
       resultData,
       isLoading,
-      search
+      search,
+      goToDetail
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.keyword-input {
+  max-width: 300px;
+}
 </style>

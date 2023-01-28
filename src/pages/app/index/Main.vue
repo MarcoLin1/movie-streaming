@@ -1,8 +1,7 @@
 <template>
   <div class="container">
     <div
-      class="q-mb-sm"
-      style="max-width: 350px;"
+      class="q-mb-sm tab-wrapper"
       :class="{'bg-dark' : isDarkMode}"
     >
       <q-tabs
@@ -32,8 +31,10 @@
         navigation
         arrows
         autoplay
+        infinite
         transition-prev="slide-right"
         transition-next="slide-left"
+        class="carousel-image"
       >
         <q-carousel-slide
           class="rounded-borders"
@@ -261,6 +262,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.tab-wrapper {
+  max-width: 350px;
+}
+
+.carousel-image {
+  min-width: 800px;
+}
+
 .main-movie-caption {
   text-align: center;
   padding: 12px;
