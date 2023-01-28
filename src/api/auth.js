@@ -22,7 +22,7 @@ export default function useAuth () {
     }
   }
 
-  async function googleLogout () {
+  async function logout () {
     try {
       onAuthStateChanged(firebaseAuth, (user) => {
         console.log('now the user', user)
@@ -50,7 +50,7 @@ export default function useAuth () {
 
   return {
     googleLogin,
-    googleLogout,
+    logout,
     facebookLogin
   }
 }

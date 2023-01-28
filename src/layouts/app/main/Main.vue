@@ -83,7 +83,7 @@
                   <q-item
                     clickable
                     v-close-popup
-                    @click="logout"
+                    @click="logoutHandler"
                   >
                     <q-item-section
                       avatar
@@ -144,6 +144,7 @@ import Drawer from 'src/components/app/Drawer.vue'
 import PopularItems from 'src/components/app/PopularItems.vue'
 
 export default {
+  name: 'AppLayout',
   components: {
     Drawer,
     PopularItems
@@ -152,7 +153,7 @@ export default {
     const $q = useQuasar()
     const route = useRoute()
     const router = useRouter()
-    const { googleLogout } = useAuth()
+    const { logout } = useAuth()
     const { onMobile, onTablet, onDesktop, isDarkMode } = useScreen()
 
     const drawer = ref(true)
@@ -169,8 +170,8 @@ export default {
       $q.dark.toggle()
     }
 
-    async function logout () {
-      await googleLogout()
+    async function logoutHandler () {
+      await logout()
       router.push({ name: 'login' })
     }
 
@@ -189,7 +190,7 @@ export default {
       isIndexRoute,
       toggleMenu,
       toggleDarkMode,
-      logout
+      logoutHandler
     }
   }
 }

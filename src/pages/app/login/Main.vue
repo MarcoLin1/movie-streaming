@@ -33,8 +33,11 @@
                 color="primary"
                 label="Remember for 30 days"
               ></q-checkbox>
-              <div class="text-right">
-                Forgot Password
+              <div
+                class="text-right cursor-pointer"
+                @click="goToRegister"
+              >
+                Register
               </div>
             </div>
             <div class="col-12">
@@ -76,6 +79,7 @@ import LoginCard from 'src/components/app/LoginCard.vue'
 import SocialBtn from 'src/components/app/SocialBtn.vue'
 
 export default {
+  name: 'Login',
   components: {
     LoginCard,
     SocialBtn
@@ -104,12 +108,17 @@ export default {
       router.push({ name: 'index' })
     }
 
+    function goToRegister () {
+      router.push({ name: 'register' })
+    }
+
     return {
       form,
       rememberPassword,
       loginHandler,
       googleLoginHandler,
-      facebookLoginHandler
+      facebookLoginHandler,
+      goToRegister
     }
   }
 }

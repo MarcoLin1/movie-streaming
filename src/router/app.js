@@ -33,9 +33,14 @@ const appRoutes = [
     meta: appMeta.loggedOutOnly,
     children: [
       {
-        path: '', // inherit parent path
+        path: 'login',
         name: 'login',
         component: () => import('src/pages/app/login/Main.vue')
+      },
+      {
+        path: 'register',
+        name: 'register',
+        component: () => import('src/pages/app/register/Main.vue')
       }
     ]
   },

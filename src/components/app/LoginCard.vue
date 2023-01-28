@@ -3,12 +3,6 @@
     <q-card class="login-form-card column">
       <q-card-section class="text-center q-py-lg negative-mb-md">
         <div class="text-h5 text-weight-bold q-px-lg">{{ title }}</div>
-        <q-btn
-          flat
-          round
-          icon="r_keyboard_arrow_left"
-          class="login-form-cad__back-btn bg-white"
-        ></q-btn>
       </q-card-section>
       <slot></slot>
     </q-card>
