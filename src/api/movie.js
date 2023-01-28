@@ -35,3 +35,7 @@ export function advancedSearch (params) {
 export function getMovieDetail (id) {
   return api.get(`Title/${apiKey}/${id}`)
 }
+
+export function getDetailAward (id) {
+  return api.get(`Awards/${apiKey}/${id}`)
+}

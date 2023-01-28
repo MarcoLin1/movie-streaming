@@ -72,6 +72,11 @@ const appRoutes = [
         component: () => import('src/pages/app/discover/Main.vue')
       },
       {
+        path: 'awards',
+        name: 'awards',
+        component: () => import('src/pages/app/awards/Main.vue')
+      },
+      {
         path: ':id',
         name: 'detail',
         component: () => import('src/pages/app/detail/Main.vue')

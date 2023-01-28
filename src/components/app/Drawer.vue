@@ -132,7 +132,10 @@ export default {
         {
           label: 'Awards',
           icon: 'r_auto_awesome',
-          subMenu: [],
+          to: {
+            name: 'awards'
+          },
+          children: [],
           visible: true
         },
         {
@@ -159,32 +162,13 @@ export default {
           ]
         },
         {
-          label: 'Category',
+          label: 'Popular',
           icon: 'r_category',
-          group: 'category',
-          subMenu: [
-            {
-              label: 'Movies',
-              to: {
-                name: 'movies'
-              },
-              visible: true
-            },
-            {
-              label: 'TV',
-              to: {
-                name: 'tvs'
-              },
-              visible: true
-            },
-            {
-              label: 'Anime',
-              to: {
-                name: 'anime'
-              },
-              visible: true
-            }
-          ]
+          to: {
+            name: 'popular'
+          },
+          children: [],
+          visible: true
         }
       ]
     })
