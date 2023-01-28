@@ -1,9 +1,10 @@
-import { signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider } from 'firebase/auth'
+import { signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth'
 import { firebaseAuth } from 'src/boot/firebase'
 import { setAuthorization, clearAuthorization } from 'src/auth'
 
 export default function useAuth () {
   const providerGoogle = new GoogleAuthProvider()
+  const providerFacebook = new FacebookAuthProvider()
 
   async function googleLogin () {
     try {
@@ -34,8 +35,22 @@ export default function useAuth () {
     }
   }
 
+  async function facebookLogin () {
+    try {
+      const result = await signInWithPopup(firebaseAuth, providerFacebook)
+      const credential = FacebookAuthProvider.credentialFromResult(result)
+      const token = credential.accessToken
+      const user = result.user
+      console.log('fb user ?', user)
+      setAuthorization(token, 36000)
+    } catch (error) {
+      console.log('facebook login failed', error)
+    }
+  }
+
   return {
     googleLogin,
-    googleLogout
+    googleLogout,
+    facebookLogin
   }
 }

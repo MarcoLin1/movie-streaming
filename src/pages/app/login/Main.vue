@@ -61,6 +61,7 @@
         <SocialBtn
           source='facebook'
           label='Sign in with facebook'
+          @click="facebookLoginHandler"
         />
       </q-card-section>
     </LoginCard>
@@ -81,7 +82,7 @@ export default {
   },
   setup () {
     const router = useRouter()
-    const { googleLogin } = useAuth()
+    const { googleLogin, facebookLogin } = useAuth()
 
     const rememberPassword = ref(false)
     const form = ref({
@@ -98,11 +99,17 @@ export default {
       router.push({ name: 'index' })
     }
 
+    async function facebookLoginHandler () {
+      await facebookLogin()
+      router.push({ name: 'index' })
+    }
+
     return {
       form,
       rememberPassword,
       loginHandler,
-      googleLoginHandler
+      googleLoginHandler,
+      facebookLoginHandler
     }
   }
 }
