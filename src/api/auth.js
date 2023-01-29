@@ -1,8 +1,10 @@
-import { signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth'
+import { signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider, FacebookAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { firebaseAuth } from 'src/boot/firebase'
 import { setAuthorization, clearAuthorization } from 'src/auth'
+import { useQuasar } from 'quasar'
 
 export default function useAuth () {
+  const $q = useQuasar()
   const providerGoogle = new GoogleAuthProvider()
   const providerFacebook = new FacebookAuthProvider()
 
@@ -11,14 +13,10 @@ export default function useAuth () {
       const result = await signInWithPopup(firebaseAuth, providerGoogle)
       const credential = GoogleAuthProvider.credentialFromResult(result)
       const token = credential.accessToken
-      const user = result.user
-      console.log('result =>', result)
-      console.log('credential =>', credential)
-      console.log('token =>', token)
-      console.log('user =>', user)
       setAuthorization(token, 36000)
     } catch (error) {
-      console.log('google login error', error)
+      const message = 'google login failed !'
+      errorHandler(message)
     }
   }
 
@@ -31,7 +29,8 @@ export default function useAuth () {
       console.log('sign out result', result)
       clearAuthorization()
     } catch (error) {
-      console.log('google logout error', error)
+      const message = 'logout failed, please try again.'
+      errorHandler(message)
     }
   }
 
@@ -40,17 +39,45 @@ export default function useAuth () {
       const result = await signInWithPopup(firebaseAuth, providerFacebook)
       const credential = FacebookAuthProvider.credentialFromResult(result)
       const token = credential.accessToken
-      const user = result.user
-      console.log('fb user ?', user)
       setAuthorization(token, 36000)
     } catch (error) {
-      console.log('facebook login failed', error)
+      const message = 'facebook login failed !'
+      errorHandler(message)
     }
+  }
+
+  async function emailRegister (email, password) {
+    try {
+      await createUserWithEmailAndPassword(firebaseAuth, email, password)
+    } catch (error) {
+      const message = 'register failed, please confirm your email and password'
+      errorHandler(message)
+    }
+  }
+
+  async function emailLogin (email, password) {
+    try {
+      const result = await signInWithEmailAndPassword(firebaseAuth, email, password)
+      setAuthorization(result.user.accessToken, 36000)
+    } catch (error) {
+      const message = 'login failed, please try again'
+      errorHandler(message)
+    }
+  }
+
+  function errorHandler (message) {
+    $q.notify({
+      message,
+      position: 'top'
+    })
   }
 
   return {
     googleLogin,
     logout,
-    facebookLogin
+    facebookLogin,
+    emailRegister,
+    emailLogin,
+    errorHandler
   }
 }

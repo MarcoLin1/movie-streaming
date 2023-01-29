@@ -86,7 +86,7 @@ export default {
   },
   setup () {
     const router = useRouter()
-    const { googleLogin, facebookLogin } = useAuth()
+    const { googleLogin, facebookLogin, emailLogin } = useAuth()
 
     const rememberPassword = ref(false)
     const form = ref({
@@ -94,7 +94,8 @@ export default {
       password: ''
     })
 
-    function loginHandler () {
+    async function loginHandler () {
+      await emailLogin(form.value.email, form.value.password)
       router.push({ name: 'index' })
     }
 

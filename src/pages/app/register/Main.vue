@@ -1,12 +1,15 @@
 <template>
   <q-page class="q-py-xl q-px-md">
-    <LoginCard title="Register">
+    <q-card class="register-card">
       <q-form
         ref="formRef"
         class="q-mb-lg"
         greedy
         @submit="registerHandler"
       >
+        <q-card-section>
+          <div class="text-h5 text-center">Register</div>
+        </q-card-section>
         <q-card-section>
           <div class="q-col-gutter-md">
             <q-input
@@ -38,38 +41,9 @@
               hint="password at least 6 characters"
             />
           </div>
-          <div class="row q-col-gutter-md q-pt-md">
-            <q-input
-              outlined
-              lazy-rules
-              hide-bottom-space
-              v-model="form.firstName"
-              label="First Name"
-              class="col-6"
-            ></q-input>
-            <q-input
-              outlined
-              lazy-rules
-              hide-bottom-space
-              v-model="form.lastName"
-              label="Last Name"
-              class="col-6"
-            ></q-input>
-          </div>
-          <div class="q-pt-md">
-            <q-input
-              outlined
-              lazy-rules
-              hide-bottom-space
-              v-model="form.birthday"
-              type="date"
-              hint="please input your birthday"
-              class="col-6"
-            ></q-input>
-          </div>
         </q-card-section>
-        <q-space class="q-py-xl"></q-space>
-        <q-card-actions class="q-px-md">
+        <q-space class="q-py-lg"></q-space>
+        <q-card-actions class="q-pa-md">
           <q-btn
             type="submit"
             class="full-width"
@@ -88,40 +62,53 @@
           ></q-btn>
         </q-card-actions>
       </q-form>
-    </LoginCard>
+    </q-card>
   </q-page>
 </template>
 
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import LoginCard from 'src/components/app/LoginCard.vue'
+import useAuth from 'src/api/auth'
 
 export default {
   name: 'Register',
-  components: {
-    LoginCard
-  },
   setup () {
     const router = useRouter()
+    const { emailRegister, errorHandler } = useAuth()
 
     const form = ref({
       email: '',
       password: '',
-      confirmPassword: '',
-      firstName: '',
-      lastName: '',
-      birthday: ''
+      confirmPassword: ''
     })
 
     function backToLogin () {
       router.push({ name: 'login' })
     }
 
+    async function registerHandler () {
+      if (form.value.password !== form.value.confirmPassword) {
+        const message = 'please confirm your password again'
+        errorHandler(message)
+        return
+      }
+      await emailRegister(form.value.email, form.value.password)
+    }
+
     return {
       form,
-      backToLogin
+      backToLogin,
+      registerHandler
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.register-card {
+  margin: 0 auto;
+  max-width: 100%;
+  width: $app-login-card-width;
+}
+</style>
