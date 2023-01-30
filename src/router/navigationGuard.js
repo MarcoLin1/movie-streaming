@@ -17,16 +17,17 @@ export const checkLoginRequired = (store) => {
         } else {
           if (auth.redirect) {
             Notify.create({
-              message: 'do not have token, it will redirect to auth.redirect'
+              message: 'Failed, you need to login first!',
+              position: 'top'
             })
-            console.log('the auth redirect', auth)
             return next({ ...auth.redirect })
           }
         }
       } else {
         if (accessToken && auth.redirect) {
           Notify.create({
-            message: 'do not need token, it will redirect directly'
+            message: 'do not need token, it will redirect directly',
+            position: 'top'
           })
           return next({ ...auth.redirect })
         } else {

@@ -120,7 +120,8 @@ module.exports = configure(function (ctx) {
         'Notify',
         'Dialog',
         'LocalStorage',
-        'Loading'
+        'Loading',
+        'Cookies'
       ],
 
       cssAddon: true

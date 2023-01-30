@@ -72,8 +72,9 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 import useAuth from 'src/api/auth'
 import LoginCard from 'src/components/app/LoginCard.vue'
 import SocialBtn from 'src/components/app/SocialBtn.vue'
@@ -85,6 +86,7 @@ export default {
     SocialBtn
   },
   setup () {
+    const $q = useQuasar()
     const router = useRouter()
     const { googleLogin, facebookLogin, emailLogin } = useAuth()
 
@@ -112,6 +114,23 @@ export default {
     function goToRegister () {
       router.push({ name: 'register' })
     }
+
+    watch(rememberPassword, (value) => {
+      console.log('value', value)
+      if (value) {
+        $q.cookies.set('loginData', form.value.email, Object.assign({
+          expires: '30d',
+          path: '/'
+        }))
+      }
+    })
+
+    onMounted(() => {
+      const loginEmail = $q.cookies?.get('loginData')
+      if (loginEmail) {
+        form.value.email = loginEmail
+      }
+    })
 
     return {
       form,

@@ -29,6 +29,7 @@
               lazy-rules
               class="col-12"
               label="Password"
+              :rules="[ val => val.length >= 6 || 'At least 6 characters']"
             />
             <q-input
               v-model="form.confirmPassword"
@@ -39,6 +40,7 @@
               class="col-12"
               label="Confirm Password"
               hint="password at least 6 characters"
+              :rules="[ val => val.length >= 6 || 'At least 6 characters']"
             />
           </div>
         </q-card-section>

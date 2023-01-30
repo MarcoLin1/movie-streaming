@@ -10,7 +10,7 @@
     <div class="fit q-pt-sm q-px-sm column no-wrap">
       <q-item class="rounded-borders q-mb-md">
         <q-item-section class="text-subtitle2">
-          Admin Panel Name
+          Movie Streaming
         </q-item-section>
       </q-item>
       <q-list class="q-gutter-y-xs">
@@ -23,15 +23,18 @@
             clickable
             dense
             class="menu-item round q-py-sm"
+            :class="{ 'absolute-bottom q-pb-md': menuIndex === menuList.length - 1 }"
             :to="menu.to"
           >
             <q-item-section side>
               <q-icon
-                size="xs"
+                size="sm"
                 :name="menu.icon"
               ></q-icon>
             </q-item-section>
-            <q-item-section>{{ menu.label }}</q-item-section>
+            <q-item-section>
+              <div class="text-subtitle1">{{ menu.label }}</div>
+            </q-item-section>
           </q-item>
           <q-expansion-item
             v-else
@@ -52,11 +55,13 @@
               >
                 <q-item-section side>
                   <q-icon
-                    size="xs"
+                    size="sm"
                     :name="menu.icon"
                   ></q-icon>
                 </q-item-section>
-                <q-item-section>{{ menu.label }}</q-item-section>
+                <q-item-section>
+                  <div class="text-subtitle1">{{ menu.label }}</div>
+                </q-item-section>
               </q-item>
             </template>
             <q-separator color="lime-1" />
@@ -124,12 +129,6 @@ export default {
           visible: true
         },
         {
-          label: 'Recent',
-          icon: 'r_schedule',
-          subMenu: [],
-          visible: true
-        },
-        {
           label: 'Awards',
           icon: 'r_auto_awesome',
           to: {
@@ -169,12 +168,17 @@ export default {
           },
           children: [],
           visible: true
+        },
+        {
+          label: 'Logout',
+          icon: 'r_logout',
+          children: [],
+          visible: true
         }
       ]
     })
 
     function updateDrawer (val) {
-      console.log('is update ?', val)
       emit('update:drawer', val)
     }
 
