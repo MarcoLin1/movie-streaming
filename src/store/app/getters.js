@@ -5,3 +5,7 @@ export function popularTVs (state) {
 export function popularMovies (state) {
   return state.popularMovies
 }
+
+export function searchingResult (state) {
+  return state.searchingResult
+}

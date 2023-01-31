@@ -39,3 +39,7 @@ export function getMovieDetail (id) {
 export function getDetailAward (id) {
   return api.get(`Awards/${apiKey}/${id}`)
 }
+
+export function searchingTitle (title) {
+  return api.get(`SearchTitle/${apiKey}/${title}`)
+}

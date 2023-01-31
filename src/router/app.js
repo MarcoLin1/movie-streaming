@@ -85,6 +85,11 @@ const appRoutes = [
         path: ':id',
         name: 'detail',
         component: () => import('src/pages/app/detail/Main.vue')
+      },
+      {
+        path: 'searching',
+        name: 'searching',
+        component: () => import('src/pages/app/search/Main.vue')
       }
     ]
   }

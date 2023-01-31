@@ -1,6 +1,7 @@
 export default function () {
   return {
     popularTVs: [],
-    popularMovies: []
+    popularMovies: [],
+    searchingResult: []
   }
 }

@@ -118,7 +118,9 @@
                 <q-input
                   rounded
                   standout
+                  v-model="search"
                   label="search"
+                  @keydown.enter.prevent="searchingHandler"
                 >
                   <template v-slot:prepend>
                     <q-icon name="r_search"></q-icon>
@@ -138,6 +140,8 @@
 import { ref, watch, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
+import { useStore } from 'vuex'
+// import { searchingTitle } from 'src/api/movie'
 import useScreen from 'src/composables/useScreen'
 import useAuth from 'src/api/auth'
 import Drawer from 'src/components/app/Drawer.vue'
@@ -151,6 +155,7 @@ export default {
   },
   setup () {
     const $q = useQuasar()
+    const store = useStore()
     const route = useRoute()
     const router = useRouter()
     const { logout } = useAuth()
@@ -159,6 +164,7 @@ export default {
     const drawer = ref(true)
     const darkMode = ref(isDarkMode)
     const breadcrumbs = ref([])
+    const search = ref('')
 
     const isIndexRoute = computed(() => route.name === 'index')
 
@@ -175,6 +181,23 @@ export default {
       router.push({ name: 'login' })
     }
 
+    async function searchingHandler () {
+      showLoading()
+      await store.dispatch('searching', search.value)
+      hideLoading()
+      router.push({ name: 'searching' })
+    }
+
+    function showLoading () {
+      $q.loading.show({
+        message: 'Searching right now, please wait...'
+      })
+    }
+
+    function hideLoading () {
+      $q.loading.hide()
+    }
+
     watch([onTablet, onDesktop], ([onTabletValue, onDesktopValue]) => {
       drawer.value = !onTabletValue || onDesktopValue
     })
@@ -188,9 +211,11 @@ export default {
       darkMode,
       breadcrumbs,
       isIndexRoute,
+      search,
       toggleMenu,
       toggleDarkMode,
-      logoutHandler
+      logoutHandler,
+      searchingHandler
     }
   }
 }
