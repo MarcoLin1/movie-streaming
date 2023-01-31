@@ -32,7 +32,6 @@ export default {
 
     const searchingResult = computed(() => store.getters.searchingResult)
 
-    console.log('the search result', searchingResult)
     function goToDetail (id) {
       router.push({ name: 'detail', params: { id } })
     }

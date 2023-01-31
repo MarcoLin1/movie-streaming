@@ -116,7 +116,6 @@ export default {
     }
 
     watch(rememberPassword, (value) => {
-      console.log('value', value)
       if (value) {
         $q.cookies.set('loginData', form.value.email, Object.assign({
           expires: '30d',

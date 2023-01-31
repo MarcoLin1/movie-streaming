@@ -25,8 +25,7 @@ export default function useAuth () {
       onAuthStateChanged(firebaseAuth, (user) => {
         console.log('now the user', user)
       })
-      const result = await signOut(firebaseAuth)
-      console.log('sign out result', result)
+      await signOut(firebaseAuth)
       clearAuthorization()
     } catch (error) {
       const message = 'logout failed, please try again.'
