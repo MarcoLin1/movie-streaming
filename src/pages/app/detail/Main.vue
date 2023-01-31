@@ -1,7 +1,32 @@
 <template>
   <div class="container">
     <q-card>
-      <div v-if="movieInfo.id !== ''">
+      <q-card-section v-if="!movieInfo.id && isLoading">
+        <div class="row justify-center items-center loading-effect">
+          <q-spinner-orbit
+            color="primary"
+            size="3rem"
+          ></q-spinner-orbit>
+        </div>
+      </q-card-section>
+      <q-card-section v-else-if="!movieInfo.id && !isLoading">
+        <div class="column justify-center items-center empty-effect">
+          <q-icon
+            size="xl"
+            name="r_error"
+            color="warning"
+          ></q-icon>
+          <div class="text-h5 text-weight-bold">Empty</div>
+          <q-btn
+            unelevated
+            color="warning"
+            label="Back"
+            class="q-mt-xl"
+            @click="backToIndex"
+          ></q-btn>
+        </div>
+      </q-card-section>
+      <div v-else>
         <q-card-section>
           <div class="col-12 row no-wrap q-gutter-x-sm">
             <q-img
@@ -120,17 +145,6 @@
           </div>
         </q-card-section>
       </div>
-      <div
-        v-else
-        class="row justify-center items-center loading-effect"
-      >
-        <q-card-section>
-          <q-spinner-orbit
-            color="primary"
-            size="3rem"
-          ></q-spinner-orbit>
-        </q-card-section>
-      </div>
     </q-card>
   </div>
 </template>
@@ -157,9 +171,11 @@ export default {
       image: '',
       plot: ''
     })
+    const isLoading = ref(false)
 
     async function getDetail (id) {
       try {
+        isLoading.value = true
         const { data } = await getMovieDetail(id)
         actorList.value = data.actorList
         directorList.value = data.directorList
@@ -175,11 +191,17 @@ export default {
         })
       } catch (error) {
         console.log('get detail error', error)
+      } finally {
+        isLoading.value = false
       }
     }
     async function checkDetail (id) {
       await getDetail(id)
       router.push({ name: 'detail', params: { id } })
+    }
+
+    function backToIndex () {
+      router.push({ name: 'index' })
     }
 
     onMounted(async () => {
@@ -193,6 +215,8 @@ export default {
       similarList,
       writerList,
       movieInfo,
+      isLoading,
+      backToIndex,
       checkDetail
     }
   }
@@ -218,5 +242,10 @@ export default {
 .loading-effect {
   min-width: 500px;
   min-height: 500px;
+}
+
+.empty-effect {
+  min-width: 300px;
+  min-height: 300px;
 }
 </style>

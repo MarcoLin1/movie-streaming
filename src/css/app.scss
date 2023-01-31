@@ -82,3 +82,9 @@ $breakpoints-steps: 'xs', 'sm', 'md', 'lg', 'xl';
 .no-underline {
   text-decoration: none;
 }
+
+.no-hover-bg-effect {
+  .q-focus-helper {
+    display: none;
+  }
+}

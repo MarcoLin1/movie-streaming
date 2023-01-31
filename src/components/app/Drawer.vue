@@ -23,8 +23,9 @@
             clickable
             dense
             class="menu-item round q-py-sm"
-            :class="{ 'absolute-bottom q-pb-md': menuIndex === menuList.length - 1 }"
+            :class="{ 'absolute-bottom q-pb-md no-hover-bg-effect': menuIndex === menuList.length - 1 }"
             :to="menu.to"
+            @click="menu.event"
           >
             <q-item-section side>
               <q-icon
@@ -90,8 +91,9 @@
 
 <script>
 import { computed, toRef } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import useScreen from 'src/composables/useScreen'
+import useAuth from 'src/api/auth'
 
 export default {
   name: 'Drawer',
@@ -104,7 +106,9 @@ export default {
   emits: ['update:drawer'],
   setup (props, { emit }) {
     const route = useRoute()
+    const router = useRouter()
     const { isDarkMode } = useScreen()
+    const { logout } = useAuth()
 
     const innerDrawer = toRef(props, 'drawer')
 
@@ -173,7 +177,8 @@ export default {
           label: 'Logout',
           icon: 'r_logout',
           children: [],
-          visible: true
+          visible: true,
+          event: logoutHandler
         }
       ]
     })
@@ -190,12 +195,18 @@ export default {
       }
     }
 
+    async function logoutHandler () {
+      await logout()
+      router.push({ name: 'login' })
+    }
+
     return {
       isDarkMode,
       innerDrawer,
       menuList,
       isMenuActive,
-      updateDrawer
+      updateDrawer,
+      logoutHandler
     }
   }
 }
