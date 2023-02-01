@@ -6,7 +6,7 @@
     <q-header class="bg-transparent">
       <q-toolbar class="q-pa-md container">
         <q-toolbar-title>
-          <div class="text-dark">Movie Streaming</div>
+          <div class="text-dark text-weight-bold text-uppercase">Movie Streaming</div>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>

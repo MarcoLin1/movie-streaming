@@ -34,7 +34,7 @@
                 label="Remember for 30 days"
               ></q-checkbox>
               <div
-                class="text-right cursor-pointer"
+                class="text-right cursor-pointer text-register"
                 @click="goToRegister"
               >
                 Register
@@ -144,4 +144,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.text-register {
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    right: 50%;
+    left: 50%;
+    bottom: -5px;
+    border-bottom: 2px solid $primary;
+    transition: 0.5s;
+  }
+  &:hover::after {
+    right: 0%;
+    left: 0%;
+  }
+}
 </style>
