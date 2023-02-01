@@ -161,11 +161,13 @@ import { computed, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getInTheatersMovies, getComingSoonMovies } from 'src/api/movie'
 import useScreen from 'src/composables/useScreen'
+import useError from 'src/composables/useError'
 
 export default {
   setup () {
     const router = useRouter()
     const { onMobile, onTablet, onDesktop, isDarkMode } = useScreen()
+    const { errorHandler } = useError()
 
     const tab = ref('leonardo')
     const moviesData = ref([])
@@ -186,6 +188,9 @@ export default {
     async function getNowPlayingMovies () {
       try {
         const { data } = await getInTheatersMovies()
+        if (data?.errorMessage) {
+          throw new Error(data?.errorMessage)
+        }
         moviesData.value = data.items?.map(movie => {
           return {
             id: movie.id,
@@ -197,13 +202,16 @@ export default {
           }
         })
       } catch (error) {
-        console.log('the error', error)
+        errorHandler(error?.message)
       }
     }
 
     async function getUpComingMovies () {
       try {
         const { data } = await getComingSoonMovies()
+        if (data?.errorMessage) {
+          throw new Error(data?.errorMessage)
+        }
         upcomingData.value = data.items?.map(movie => {
           return {
             id: movie.id,
@@ -215,7 +223,7 @@ export default {
           }
         })
       } catch (error) {
-        console.log(error)
+        errorHandler(error?.message)
       }
     }
 

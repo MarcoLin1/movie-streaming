@@ -65,12 +65,14 @@ import { computed, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getTop250Movies } from 'src/api/movie'
 import useScreen from 'src/composables/useScreen'
+import useError from 'src/composables/useError'
 
 export default {
   name: 'Top250Movies',
   setup () {
     const router = useRouter()
     const { isDarkMode } = useScreen()
+    const { errorHandler } = useError()
 
     const isLoading = ref(false)
     const search = ref(null)
@@ -130,9 +132,12 @@ export default {
       try {
         isLoading.value = true
         const { data } = await getTop250Movies()
+        if (data?.errorMessage) {
+          throw new Error(data?.errorMessage)
+        }
         top250Movies.value = data.items
       } catch (error) {
-        console.log('fetch top 250 movies failed', error)
+        errorHandler(error?.message)
       } finally {
         isLoading.value = false
       }

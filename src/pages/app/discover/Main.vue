@@ -197,10 +197,12 @@ import { date } from 'quasar'
 import { advancedSearch } from 'src/api/movie'
 import { GENRES, TITLE_GROUPS, GENRES_OPTIONS, TITLE_GROUPS_OPTIONS } from 'src/constant/options'
 import { QUASAR_DATE, RESTFUL_API_DATE } from 'src/constant/date'
+import useError from 'src/composables/useError'
 
 export default {
   setup () {
     const router = useRouter()
+    const { errorHandler } = useError()
 
     const startDate = ref('')
     const endDate = ref('')
@@ -263,14 +265,6 @@ export default {
           field: () => { },
           sortable: false
         }
-        // {
-        //   name: 'plot',
-        //   label: 'Plot',
-        //   align: 'center',
-        //   autoWidth: false,
-        //   field: (row) => row.plot,
-        //   sortable: false
-        // }
       ]
     })
 
@@ -290,9 +284,12 @@ export default {
           release_date: releaseDate,
           keywords: keyword.value
         })
+        if (data?.errorMessage) {
+          throw new Error(data?.errorMessage)
+        }
         resultData.value = data.results
       } catch (error) {
-        console.log('search error', error)
+        errorHandler(error?.message)
       } finally {
         isLoading.value = false
       }

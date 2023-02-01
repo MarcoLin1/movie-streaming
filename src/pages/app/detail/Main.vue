@@ -154,11 +154,14 @@ import { ref, onMounted } from 'vue'
 import { extend } from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
 import { getMovieDetail } from 'src/api/movie'
+import useError from 'src/composables/useError'
 
 export default {
   setup () {
     const route = useRoute()
     const router = useRouter()
+    const { errorHandler } = useError()
+
     const actorList = ref([])
     const directorList = ref([])
     const similarList = ref([])
@@ -177,6 +180,9 @@ export default {
       try {
         isLoading.value = true
         const { data } = await getMovieDetail(id)
+        if (data?.errorMessage) {
+          throw new Error(data?.errorMessage)
+        }
         actorList.value = data.actorList
         directorList.value = data.directorList
         keywordList.value = data.keywordList
@@ -190,7 +196,7 @@ export default {
           plot: data.plot
         })
       } catch (error) {
-        console.log('get detail error', error)
+        errorHandler(error?.message)
       } finally {
         isLoading.value = false
       }

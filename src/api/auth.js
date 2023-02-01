@@ -1,10 +1,10 @@
 import { signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider, FacebookAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { firebaseAuth } from 'src/boot/firebase'
 import { setAuthorization, clearAuthorization } from 'src/auth'
-import { useQuasar } from 'quasar'
+import useError from 'src/composables/useError'
 
 export default function useAuth () {
-  const $q = useQuasar()
+  const { errorHandler } = useError()
   const providerGoogle = new GoogleAuthProvider()
   const providerFacebook = new FacebookAuthProvider()
 
@@ -64,19 +64,11 @@ export default function useAuth () {
     }
   }
 
-  function errorHandler (message) {
-    $q.notify({
-      message,
-      position: 'top'
-    })
-  }
-
   return {
     googleLogin,
     logout,
     facebookLogin,
     emailRegister,
-    emailLogin,
-    errorHandler
+    emailLogin
   }
 }

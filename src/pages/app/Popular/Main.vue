@@ -77,12 +77,14 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getPopularTVs, getPopularMovies } from 'src/api/movie'
 import useScreen from 'src/composables/useScreen'
+import useError from 'src/composables/useError'
 
 export default {
   name: 'PopularPage',
   setup () {
     const router = useRouter()
     const { isDarkMode } = useScreen()
+    const { errorHandler } = useError()
 
     const tab = ref('tv')
     const isLoading = ref(false)
@@ -92,18 +94,24 @@ export default {
     async function fetchPopularTVs () {
       try {
         const { data } = await getPopularTVs()
+        if (data?.errorMessage) {
+          throw new Error(data?.errorMessage)
+        }
         popularTVs.value = data.items
       } catch (error) {
-        console.log('fetch popular tv failed', error)
+        errorHandler(error?.message)
       }
     }
 
     async function fetchPopularMovies () {
       try {
         const { data } = await getPopularMovies()
+        if (data?.errorMessage) {
+          throw new Error(data?.errorMessage)
+        }
         popularMovies.value = data.items
       } catch (error) {
-        console.log('fetch popular movies failed', error)
+        errorHandler(error?.message)
       }
     }
 

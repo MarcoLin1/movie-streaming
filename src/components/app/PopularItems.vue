@@ -49,10 +49,12 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getPopularTVs } from 'src/api/movie'
+import useError from 'src/composables/useError'
 
 export default {
   setup () {
     const router = useRouter()
+    const { errorHandler } = useError()
 
     const popularTVs = ref([])
 
@@ -63,6 +65,9 @@ export default {
     async function fetchPopularMovies () {
       try {
         const { data } = await getPopularTVs()
+        if (data?.errorMessage) {
+          throw new Error(data?.errorMessage)
+        }
         popularTVs.value = data?.items?.map(movie => {
           const { id, rank, title, image, year, imDbRating } = movie
           return {
@@ -75,7 +80,7 @@ export default {
           }
         })
       } catch (error) {
-        console.log('error', error)
+        errorHandler(error?.message)
       }
     }
 

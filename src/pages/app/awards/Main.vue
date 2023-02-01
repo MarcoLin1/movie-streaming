@@ -9,9 +9,6 @@
         <div class="text-h5 text-uppercase text-warning">Awards</div>
       </q-card-section>
       <q-card-section>
-        <div class="text-h6 text-uppercase">Recent</div>
-      </q-card-section>
-      <q-card-section>
         <div class="col-12 row justify-center q-gutter-md">
           <template
             v-for="(item, itemIndex) in allData"
@@ -43,6 +40,7 @@
 import { onMounted, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { advancedSearch, getDetailAward } from 'src/api/movie'
+import useError from 'src/composables/useError'
 import BaseDialog from 'src/components/app/BaseDialog.vue'
 
 export default {
@@ -52,41 +50,57 @@ export default {
   },
   setup () {
     const $q = useQuasar()
+    const { errorHandler } = useError()
+
     const allData = ref([])
 
     async function getOscarMovies () {
-      const { data } = await advancedSearch({
-        groups: 'oscar_winners',
-        sort: 'year,desc'
-      })
-      const winnerResult = data.results.map(item => {
-        const year = Number(item.description.replace(/\(/g, '').replace(/\)/g, ''))
-        return {
-          id: item.id,
-          year,
-          image: item.image,
-          title: item.title
+      try {
+        const { data } = await advancedSearch({
+          groups: 'oscar_winners',
+          sort: 'year,desc'
+        })
+        if (data?.errorMessage) {
+          throw new Error(data?.errorMessage)
         }
-      })
-      allData.value = winnerResult.sort((a, b) => b.year - a.year)
+        const winnerResult = data.results.map(item => {
+          const year = Number(item.description.replace(/\(/g, '').replace(/\)/g, ''))
+          return {
+            id: item.id,
+            year,
+            image: item.image,
+            title: item.title
+          }
+        })
+        allData.value = winnerResult.sort((a, b) => b.year - a.year)
+      } catch (error) {
+        errorHandler(error?.message)
+      }
     }
 
     async function detailAward (id) {
-      const { data } = await getDetailAward(id)
-      const academyAward = data.items[0]
-      const oscarWinners = academyAward.outcomeItems
-        .find(item => item.outcomeTitle === 'Winner')?.outcomeDetails
-        .map(outcome => outcome?.plainText)
-      $q.dialog({
-        component: BaseDialog,
-        componentProps: {
-          title: data.fullTitle,
-          content: oscarWinners,
-          confirmLabel: 'Confirm',
-          showCancelBtn: false,
-          persistent: true
+      try {
+        const { data } = await getDetailAward(id)
+        if (data?.errorMessage) {
+          throw new Error(data?.errorMessage)
         }
-      })
+        const academyAward = data.items[0]
+        const oscarWinners = academyAward.outcomeItems
+          .find(item => item.outcomeTitle === 'Winner')?.outcomeDetails
+          .map(outcome => outcome?.plainText)
+        $q.dialog({
+          component: BaseDialog,
+          componentProps: {
+            title: data.fullTitle,
+            content: oscarWinners,
+            confirmLabel: 'OK',
+            showCancelBtn: false,
+            persistent: true
+          }
+        })
+      } catch (error) {
+        errorHandler(error?.message)
+      }
     }
 
     onMounted(async () => {

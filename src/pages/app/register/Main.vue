@@ -72,12 +72,14 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import useAuth from 'src/api/auth'
+import useError from 'src/composables/useError'
 
 export default {
   name: 'Register',
   setup () {
     const router = useRouter()
-    const { emailRegister, errorHandler } = useAuth()
+    const { emailRegister } = useAuth()
+    const { errorHandler } = useError()
 
     const form = ref({
       email: '',
