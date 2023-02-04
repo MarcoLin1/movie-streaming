@@ -50,7 +50,10 @@
         name="movie"
         class="q-pa-none"
       >
-        <div class="q-py-md bg-app-background">
+        <div
+          class="q-py-md"
+          :class="isDarkMode ? 'bg-dark text-white' : 'bg-app-background'"
+        >
           <div class="row justify-center q-gutter-md">
             <q-intersection
               v-for="movie in popularMovies"

@@ -92,6 +92,7 @@
 <script>
 import { computed, toRef } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 import useScreen from 'src/composables/useScreen'
 import useAuth from 'src/api/auth'
 
@@ -105,6 +106,7 @@ export default {
   },
   emits: ['update:drawer'],
   setup (props, { emit }) {
+    const $q = useQuasar()
     const route = useRoute()
     const router = useRouter()
     const { isDarkMode } = useScreen()
@@ -197,6 +199,9 @@ export default {
 
     async function logoutHandler () {
       await logout()
+      if (isDarkMode) {
+        $q.dark.toggle()
+      }
       router.push({ name: 'login' })
     }
 
