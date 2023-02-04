@@ -1,4 +1,4 @@
-import { signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider, FacebookAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithPopup, signOut, GoogleAuthProvider, FacebookAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { firebaseAuth } from 'src/boot/firebase'
 import { setAuthorization, clearAuthorization } from 'src/auth'
 import useError from 'src/composables/useError'
@@ -22,9 +22,6 @@ export default function useAuth () {
 
   async function logout () {
     try {
-      onAuthStateChanged(firebaseAuth, (user) => {
-        console.log('now the user', user)
-      })
       await signOut(firebaseAuth)
       clearAuthorization()
     } catch (error) {

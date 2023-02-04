@@ -177,7 +177,7 @@ export default {
 
     async function logoutHandler () {
       await logout()
-      if (isDarkMode) {
+      if (isDarkMode.value) {
         $q.dark.toggle()
       }
       router.push({ name: 'login' })

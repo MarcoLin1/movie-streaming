@@ -1,19 +1,18 @@
 import { Cookies } from 'quasar'
+import { MODULE_NAME } from 'src/constant/module'
 
-const moduleName = 'movie-streaming'
-
-function getAuthorization (module = moduleName) {
+function getAuthorization (module = MODULE_NAME) {
   return Cookies.get(module)
 }
 
-function setAuthorization (accessToken, expiresIn, module = moduleName) {
+function setAuthorization (accessToken, expiresIn, module = MODULE_NAME) {
   Cookies.set(module, accessToken, Object.assign({
     expires: `${expiresIn}s`,
     path: '/'
   }))
 }
 
-function clearAuthorization (module = moduleName) {
+function clearAuthorization (module = MODULE_NAME) {
   return Cookies.remove(module, Object.assign({
     path: '/'
   }))

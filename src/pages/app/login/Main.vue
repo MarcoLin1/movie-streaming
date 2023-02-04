@@ -75,6 +75,7 @@
 import { ref, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
+import { MODULE_NAME } from 'src/constant/module'
 import useAuth from 'src/api/auth'
 import LoginCard from 'src/components/app/LoginCard.vue'
 import SocialBtn from 'src/components/app/SocialBtn.vue'
@@ -98,17 +99,24 @@ export default {
 
     async function loginHandler () {
       await emailLogin(form.value.email, form.value.password)
-      router.push({ name: 'index' })
+      checkLoginStatus()
     }
 
     async function googleLoginHandler () {
       await googleLogin()
-      router.push({ name: 'index' })
+      checkLoginStatus()
     }
 
     async function facebookLoginHandler () {
       await facebookLogin()
-      router.push({ name: 'index' })
+      checkLoginStatus()
+    }
+
+    function checkLoginStatus () {
+      const hasToken = Boolean($q.cookies.get(MODULE_NAME))
+      if (hasToken) {
+        router.push({ name: 'index' })
+      }
     }
 
     function goToRegister () {
