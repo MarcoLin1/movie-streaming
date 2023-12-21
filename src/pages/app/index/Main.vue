@@ -42,7 +42,7 @@
           :img-src="'https://m.media-amazon.com/images/M/MV5BMjEzNzg0Mjk0Ml5BMl5BanBnXkFtZTcwMjI1ODkwMw@@._V1_Ratio2.4000_AL_.jpg'"
         >
           <div class="main-movie-caption absolute-bottom-left q-ma-md">
-            <div class="text-h6">Leonardo DiCaprio</div>
+            <div class="text-h6">LEONARDO</div>
           </div>
         </q-carousel-slide>
         <q-carousel-slide
@@ -51,7 +51,7 @@
           :img-src="'https://m.media-amazon.com/images/M/MV5BMTU4MDk3MjUzNF5BMl5BanBnXkFtZTcwNTc0OTk1Mw@@._V1_Ratio2.3800_AL_.jpg'"
         >
           <div class="main-movie-caption absolute-bottom-left q-ma-md">
-            <div class="text-h6">Inception</div>
+            <div class="text-h6">INCEPTION</div>
           </div>
         </q-carousel-slide>
         <q-carousel-slide
@@ -60,7 +60,7 @@
           :img-src="'https://m.media-amazon.com/images/M/MV5BMTY1Nzk4ODUwMF5BMl5BanBnXkFtZTcwMzc0OTk1Mw@@._V1_Ratio2.3800_AL_.jpg'"
         >
           <div class="main-movie-caption absolute-bottom-left q-ma-md">
-            <div class="text-h6">Inception</div>
+            <div class="text-h6">INCEPTION</div>
           </div>
         </q-carousel-slide>
       </q-carousel>
